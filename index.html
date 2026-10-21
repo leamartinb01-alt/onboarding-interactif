@@ -92,6 +92,7 @@ section.blk{margin-top:46px}
 .mini .n{font-family:Anton;font-size:26px;color:var(--or2)}
 .mini h4{font-family:Anton;text-transform:uppercase;font-size:16px;color:#fff;margin-top:8px}
 .mini p{font-size:12.5px;color:var(--tx);margin-top:8px}
+.mini a.mlink{display:inline-block;margin-top:10px;color:var(--or2);font-weight:700;text-decoration:none}
 
 /* timeline */
 .tl{position:relative;padding-left:40px}
@@ -302,9 +303,9 @@ const L = {
   briefset: ["Le groupe brief setting", "!Groupe WhatsApp — l'accès se donne à la passation"],
   skool:    ["Skool · Viralité Booster", "!C'est le closer qui donne l'accès — automatique via Whop, on vérifie toujours"],
   obj:      ["La fiche de traitement des objections", "https://docs.google.com/document/d/1LqBvZ5i370cSYJ0adh53R_eFht2hyupt/edit"],
-  tplE:     ["Template de l'offre Élite · 8 000 €", "https://drive.google.com/file/d/1I2ZCoPw54AcLNP0Bvn0l7yoO6AkwnlRD/view"],
-  tplM:     ["Template de l'offre Mentorat · 12 000 €", "https://drive.google.com/file/d/1vFRy5EaXbxPnQQjApYU-F8WSzda0AkE8/view"],
-  tplP:     ["Template de l'offre Partenariat · 25 000 €", "https://drive.google.com/file/d/1yvuX1npZ-BvJHlqAwPI8AywMG6YUIiLP/view"],
+  tplE:     ["Template de l'offre Élite · 8 000 €", "https://drive.google.com/file/d/1wZX3brXLboevVABMhNXg-feuTdD-G8sH/view?usp=sharing"],
+  tplM:     ["Template de l'offre Mentorat · 12 000 €", "https://drive.google.com/file/d/1mMAWg7iJoZGQ_yPZ4Yau0c9cINAeVDZj/view?usp=sharing"],
+  tplP:     ["Template de l'offre Partenariat · 25 000 €", "https://drive.google.com/file/d/1yFAmIy_w3DKye4yaZM0Nhp2hdXB7a3UB/view?usp=sharing"],
   cgv:      ["Les CGV · Jotform (hors Whop uniquement)", "https://form.jotform.com/260963237542460"],
   app:      ["L'application · clients, ventes, EOD", "https://leamartinb01-alt.github.io/eod-viralite/"],
   enr:      ["Drive des enregistrements d'appels", "https://drive.google.com/drive/folders/1zpbxVALUYGcyA1Qfiuj4PMXn18ctJ756"],
@@ -330,6 +331,7 @@ const L = {
   v2:       ["Le prompt V2 · à coller dans les instructions du projet", "https://drive.google.com/file/d/10mvBs6dQeAcCsFzMm2mVMPheuxfnZVTI/view"],
   yt:       ["La méthode expliquée par Loïc", "https://youtube.com/watch?v=-Er0-gqvKs0"],
   contrat:  ["Ton contrat de prestation", ""],
+  process:  ["Le Process A→Z · le document complet", "https://drive.google.com/file/d/1EaWyWQkWyXWy2mrz9seqAOWGW7YLLhIN/view?usp=sharing"],
   wEc:      ["Élite · comptant 8 000 €", "https://whop.com/checkout/plan_DI52bP4Pd6fHm"],
   wE2:      ["Élite · 2 × 4 000 €", "https://whop.com/checkout/plan_iAP5NBX5mM4pB"],
   wE4:      ["Élite · 4 × 2 000 €", "https://whop.com/checkout/plan_DRhLiXjkzeXaa"],
@@ -356,7 +358,7 @@ Au plaisir d'échanger avec toi.`;
 const JOUR1 = [
   ["1","Ton contrat est signé","Avant tout le reste. <b>Pas de contrat signé, pas d'accès</b> : c'est la même logique que pour un client — rien ne démarre sans l'écrit. Closer, setter ou coach, chacun a le sien."],
   ["2","L'appel de passation","Un appel avec <b>Léa</b>. On y ouvre tes accès (iClosed, l'application pour l'EOD, le groupe équipe, les Drive de ton poste), on te crée ton <b>adresse mail</b> Google Workspace, et on t'envoie l'invitation au <b>point équipe du lundi</b>."],
-  ["3","Tu lis le Process A→Z","En entier, une fois, dans l'ordre. C'est la seule source. Si une information n'y est pas, on la demande — on ne l'invente pas et on ne bricole pas sa propre version."],
+  ["3","Tu lis le Process A→Z","En entier, une fois, dans l'ordre. C'est la seule source. Si une information n'y est pas, on la demande — on ne l'invente pas et on ne bricole pas sa propre version.<br><a class='mlink' href='"+L.process[1]+"' target='_blank' rel='noopener'>Ouvrir le Process A→Z →</a>"],
   ["4","Le rituel démarre le soir même","L'EOD sur l'application, tous les soirs, dès ton premier jour. Et le <b>point équipe du lundi</b>, déjà dans ton agenda."]
 ];
 
@@ -597,7 +599,7 @@ const CLOSER = {
     "<b>Tu ne bricoles jamais ta propre version</b> d'un document : si un lien manque, tu le demandes à Léa.",
     "<b>Tu ne décroches jamais sans avoir lu le brief setting</b> et les notes iClosed du setter."
   ],
-  tools:["contrat","app","briefset","obj","nurtCas","nurtPdf","temoign","tplE","tplM","tplP","cgv","skool","enr","formE","formM","formP","calR","calJ","logoE","logoM","logoP"]
+  tools:["contrat","process","app","briefset","obj","nurtCas","nurtPdf","temoign","tplE","tplM","tplP","cgv","skool","enr","formE","formM","formP","calR","calJ","logoE","logoM","logoP"]
 };
 
 /* ---------- COACH ---------- */
@@ -732,7 +734,7 @@ const COACH = {
     "<b>Tu ne proposes jamais l'upsell avant le bilan chiffré.</b>",
     "<b>Tu ne recolles pas le prompt V2</b> à chaque quinzaine : il se pose une seule fois, dans les instructions du projet."
   ],
-  tools:["contrat","app","repE","repM","repP","dcoach","q1","q2","q3","qrep","v2","yt","calR","calJ","audR","audJ","upsell","nurt"]
+  tools:["contrat","process","app","repE","repM","repP","dcoach","q1","q2","q3","qrep","v2","yt","calR","calJ","audR","audJ","upsell","nurt"]
 };
 
 /* ---------- SETTER ---------- */
@@ -788,7 +790,7 @@ const SETTER = {
     "<b>Tu ne prends pas attache avec le prospect</b> : c'est le closer qui fait son propre nurturing.",
     "<b>Tu ne promets rien sur les offres</b> : c'est l'appel du closer."
   ],
-  tools:["contrat","app","briefset","temoign","nurtCas"]
+  tools:["contrat","process","app","briefset","temoign","nurtCas"]
 };
 
 const ROLES = {closer:CLOSER, coach:COACH, setter:SETTER};
