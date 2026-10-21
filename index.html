@@ -213,6 +213,51 @@ td.y{color:var(--or2);font-weight:700}
 .foot{margin-top:40px;text-align:center;font-size:11.5px;letter-spacing:.2em;
   color:#6b6058;font-weight:700;text-transform:uppercase}
 
+/* ---------- l'assistant ---------- */
+.asst{margin-top:6px;background:var(--card);border:1.5px solid var(--bd);border-radius:18px;padding:20px 22px;
+  box-shadow:0 0 0 4px rgba(255,122,61,.06)}
+.ahead{display:flex;gap:14px;align-items:center}
+.aico{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-family:Anton;font-size:22px;
+  color:#1a0f09;background:linear-gradient(135deg,#ff6a2b,#ffb277)}
+.ahead h3{font-size:22px}
+.asub{font-size:13px;color:var(--tx2);margin-top:2px}
+.alog{display:none;flex-direction:column;gap:10px;margin-top:16px;max-height:460px;overflow-y:auto;padding-right:4px}
+.bq{align-self:flex-end;max-width:85%;background:#ff7a3d;color:#1a0f09;font-weight:600;font-size:14px;
+  padding:9px 14px;border-radius:14px 14px 4px 14px}
+.ba{align-self:flex-start;max-width:92%;background:#180f0a;border:1.5px solid var(--bdm);font-size:14px;
+  padding:12px 15px;border-radius:14px 14px 14px 4px}
+.ba .links{margin-top:10px}
+.aoff{margin:10px 0;padding:10px 12px;border-left:3px solid var(--or);background:rgba(255,122,61,.06);border-radius:0 10px 10px 0}
+.aoff .at{display:block;color:var(--wh);margin-bottom:3px}
+.aoff span{display:block;font-size:12.5px;color:var(--or3);margin-top:5px}
+.amuted{font-size:12px;color:var(--tx2);margin-top:12px}
+.ago{margin-top:10px;background:none;border:1.5px solid var(--bd);color:var(--or2);border-radius:9px;
+  padding:6px 12px;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer}
+.ago:hover{background:rgba(255,122,61,.1)}
+.arow{display:flex;gap:10px;margin-top:16px}
+.arow input{flex:1;min-width:0;background:#180f0a;border:1.5px solid var(--bdm);border-radius:11px;color:var(--wh);
+  padding:12px 14px;font:inherit;font-size:16px}
+.arow input:focus{outline:none;border-color:var(--bd)}
+.asend{flex:none;background:linear-gradient(135deg,#ff6a2b,#ff9a52);border:0;border-radius:11px;color:#1a0f09;
+  font:inherit;font-weight:800;font-size:14px;padding:0 18px;cursor:pointer}
+.achips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.achips button{background:#1c130d;border:1.5px solid var(--bdm);border-radius:999px;color:var(--tx);
+  padding:6px 12px;font:inherit;font-size:12.5px;cursor:pointer;text-align:left}
+.achips button:hover{border-color:var(--bd);color:var(--wh)}
+.adots{display:inline-flex;gap:4px;padding:4px 0}
+.adots i{width:6px;height:6px;border-radius:50%;background:var(--or2);animation:ad 1s infinite ease-in-out}
+.adots i:nth-child(2){animation-delay:.15s}
+.adots i:nth-child(3){animation-delay:.3s}
+@keyframes ad{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+@media (max-width:600px){
+  .topbar .in{padding:10px 16px;gap:8px}
+  .topbar .btn{padding:6px 9px;font-size:11.5px}
+  .pct{min-width:0}
+  .asst{padding:16px}
+  .ahead h3{font-size:19px}
+  .asend{padding:0 14px}
+}
+
 @media (max-width:900px){
   .roles,.four,.tools,.never{grid-template-columns:1fr}
   .four{gap:12px}
@@ -222,7 +267,7 @@ td.y{color:var(--or2);font-weight:700}
 }
 @media print{
   body{background:#fff;color:#000}
-  .topbar,.role,.copybtn{display:none}
+  .topbar,.role,.copybtn,.asst{display:none}
   .body{display:block !important}
 }
 </style>
@@ -282,6 +327,7 @@ td.y{color:var(--or2);font-weight:700}
     <span class="who" id="tbwho"></span>
     <div class="bar"><span id="tbbar"></span></div>
     <div class="pct" id="tbpct">0 / 0 coché</div>
+    <button class="btn" onclick="aFocus()">Une question ?</button>
     <button class="btn" onclick="openAll()">Tout déplier</button>
     <button class="btn" onclick="back()">Changer de poste</button>
   </div></div>
@@ -796,6 +842,651 @@ const SETTER = {
 const ROLES = {closer:CLOSER, coach:COACH, setter:SETTER};
 const NAMES = {closer:"Closer", coach:"Coach", setter:"Setter"};
 
+/* ============================ l'assistant ============================
+   Il répond aux questions à partir du contenu de cette page, et seulement de lui.
+   Aucune IA en ligne, aucun envoi de données : tout tourne dans le navigateur.
+   Pour ajouter une réponse : une entrée dans KB {id, r, q, v, k, a, s, l, rel}
+   r = le parcours concerné (all / closer / coach / setter)
+   q = la question affichée · v = d'autres façons de la poser · k = mots-clés
+   a = la réponse (HTML) · s = le titre (ou début du titre) de l'étape à ouvrir
+   l = des clés de L · rel = des id de questions proches */
+
+const KB = [
+/* ---------- commun ---------- */
+{id:"contrat", r:"all", q:"Qu'est-ce qui se passe avant que je commence ?",
+ v:["quand est-ce que je commence","je démarre quand","première étape","par où je commence","mon contrat"],
+ k:["contrat","signe","commence","demarre","passation","debut"],
+ a:`Rien ne commence avant la signature de ton <b>contrat de prestation</b> : pas de contrat signé, pas d'accès. <b>Léa</b> te l'envoie, tu le signes, et ça déclenche l'<b>appel de passation</b>. Pendant cet appel : tes accès (iClosed, l'application, le groupe équipe, les Drive de ton poste), ton <b>adresse mail Google Workspace</b>, et l'invitation au <b>point équipe du lundi</b>.`,
+ s:"Ton contrat", l:["contrat"], rel:["acces","process","lundi"]},
+
+{id:"acces", r:"all", q:"Il me manque un accès, je fais comment ?",
+ v:["je n'ai pas accès","pas d'accès","accès manquant","lien manquant","je trouve pas le lien","mot de passe"],
+ k:["acces","manque","lien","drive","iclosed","mail","workspace"],
+ a:`Tu le demandes à <b>Léa</b>. Les accès s'ouvrent à l'appel de passation, une fois ton contrat signé. Si un lien manque dans un document, tu ne bricoles jamais ta propre version : tu le demandes.`,
+ l:["app"], rel:["contrat","doute"]},
+
+{id:"process", r:"all", q:"Où je trouve le Process A→Z ?",
+ v:["le process a à z","le process complet","le document complet","la bible","le pdf"],
+ k:["process","document","complet","pdf","lire","bible"],
+ a:`Le voici. Tu le lis <b>en entier, une fois, dans l'ordre</b> : c'est la seule source. Si une information n'y est pas, on la demande — on ne l'invente pas.`,
+ l:["process"], rel:["doute","contrat"]},
+
+{id:"lundi", r:"all", q:"C'est quand le point équipe ?",
+ v:["réunion d'équipe","point du lundi","réunion hebdo","meeting"],
+ k:["lundi","equipe","reunion","hebdo","meeting"],
+ a:`<b>Chaque lundi.</b> L'invitation récurrente t'est envoyée pendant l'appel de passation : il est déjà dans ton agenda. On y fait le point, les feedbacks et les demandes qui reviennent.`,
+ rel:["eod","contrat"]},
+
+{id:"eod", r:"all", q:"C'est quoi l'EOD et quand je le fais ?",
+ v:["compte rendu du soir","rapport de fin de journée","end of day","rituel du soir"],
+ k:["eod","soir","rituel","rapport","journee","app"],
+ a:`L'EOD, c'est ton point de fin de journée sur l'<b>application</b>, <b>tous les soirs, dès ton premier jour</b>. Tu y notes ce qui a avancé <b>et ce qui bloque</b>. Côté closer : l'EOD, iClosed rempli et chaque nouvelle vente créée. Côté coach : ce qui a été livré et ce qui bloque.`,
+ s:"Ton rituel", l:["app"], rel:["lundi","fiche"]},
+
+{id:"doute", r:"all", q:"À qui je pose une question si j'ai un doute ?",
+ v:["à qui je demande","qui contacter","j'ai une question","je sais pas","je suis bloqué","qui est mon contact"],
+ k:["doute","question","demande","contacter","bloque","qui"],
+ a:`Une question sur <b>la vente ou le paiement</b> : <b>Léa</b>. Une question sur <b>le contenu ou la stratégie</b> d'un client : <b>Loïc</b>, dans le groupe. Et la règle : <b>on ne devine pas, on demande.</b>`,
+ rel:["equipe","process"]},
+
+{id:"equipe", r:"all", q:"Qui fait quoi dans l'équipe ?",
+ v:["qui est loïc","qui est léa","qui sont les coachs","organigramme","rôle de chacun"],
+ k:["equipe","loic","lea","romain","john","role","qui"],
+ a:`<b>Loïc</b>, c'est le fondateur : il est dans chaque groupe client, 7j/7. <b>Léa</b> gère les opérations : contrats, accès, paiements et cas particuliers. <b>Romain</b> et <b>John</b> sont les coachs : ils deviennent le référent du client à partir de H+120.`,
+ rel:["doute","coachstart"]},
+
+{id:"recapoffres", r:"all", q:"Fais-moi un récap des offres",
+ v:["résume les offres","compare les offres","différence entre les offres","les trois offres","présente-moi les offres","explique-moi les offres","toutes les offres","comparatif des offres","on a quelles offres"],
+ k:["recap","offre","toutes","differ","3","trois"],
+ a:`Trois offres, et une même garantie : <b>1 million de vues en 90 jours</b>.
+ <div class="aoff"><b class="at">L'Élite Virale · 8 000 € · 4 mois</b>
+ Pour l'indépendant qui a le temps d'exécuter (environ 3 000 à 15 000 €/mois). On fait la stratégie, les concepts et le calendrier ; <b>lui écrit, monte et publie</b>, on corrige.
+ <span>Comptant, 2 ou 4 fois · minimum encaissé 2 000 €</span></div>
+ <div class="aoff"><b class="at">Le Mentorat Viral · 12 000 € · 6 mois</b>
+ Pour le chef d'entreprise qui veut déléguer (plus de 15 000 €/mois). En plus : <b>scripts, montage et habillage</b>. Lui tourne et publie. Prompt IA en fin de programme.
+ <span>Comptant, 2 ou 3 fois · minimum encaissé 3 000 €</span></div>
+ <div class="aoff"><b class="at">Le Partenariat Viral · 25 000 € · 6 mois</b>
+ Sur sélection, avec du budget pub. On fait tout : en plus, <b>publication, tunnel, automatisations et pub Meta</b>. Lui tourne.
+ <span>Comptant ou 6 fois · minimum encaissé 5 000 €</span></div>
+ Pour choisir, c'est <b>le budget marketing déjà dépensé</b> qui tranche, pas le chiffre d'affaires.`,
+ s:"Ta préparation", r2:"closer", l:["tplE","tplM","tplP"], rel:["quelleoffre","garantie","livre"]},
+
+{id:"recapcloser", r:"closer", q:"Résume-moi mon poste de closer",
+ v:["mon rôle","c'est quoi mon job","ce que je fais","récap de mon poste","mes missions"],
+ k:["recap","poste","role","mission","job"],
+ a:`Tu prends la main <b>dès qu'un rendez-vous est booké</b> : tu prends attache dans les <b>2 h</b> avec la page de témoignages, tu prépares et tu fais l'appel, tu fais signer les <b>CGV avant le paiement</b> et tu envoies <b>un seul lien</b>. Une fois le minimum encaissé : les <b>6 vérifications</b>, le groupe client et le message d'onboarding. Chaque soir : EOD, iClosed et l'enregistrement dans le Drive.`,
+ s:"Le lead arrive", rel:["attache","verifs","recapoffres"]},
+
+{id:"recapcoach", r:"coach", q:"Résume-moi mon poste de coach",
+ v:["mon rôle","c'est quoi mon job","ce que je fais","récap de mon poste","mes missions"],
+ k:["recap","poste","role","mission","job"],
+ a:`Tu es dans le groupe client dès sa création et <b>référent à partir de H+120</b>, jusqu'au bilan. Tu lis le formulaire, tu fais l'appel d'onboarding avec Loïc, tu valides le setup, puis tu livres selon l'offre : <b>calendrier par quinzaine</b>, au moins <b>deux points par mois</b>, questionnaire chaque mois. Tu relances un client qui décroche, et tu termines par le <b>bilan chiffré, le témoignage et la prolongation</b>.`,
+ s:"Le dossier arrive", rel:["livre","silence","bilan"]},
+
+{id:"recapsetter", r:"setter", q:"Résume-moi mon poste de setter",
+ v:["mon rôle","c'est quoi mon job","ce que je fais","récap de mon poste","mes missions"],
+ k:["recap","poste","role","mission","job"],
+ a:`Tu sources et tu <b>qualifies</b> (B2B, activité établie, chiffre d'affaires et budget), tu <b>bookes</b> le créneau, tu notes la <b>source</b> sur l'application et tu postes ton <b>brief setting</b> en mentionnant qui a booké. Ensuite, c'est le closer qui prend attache : ton travail s'arrête là.`,
+ s:"Lequel des deux settings", rel:["cible","briefsetter","budget"]},
+
+/* ---------- closer ---------- */
+{id:"lead", r:"closer", q:"D'où viennent les rendez-vous ?",
+ v:["comment arrive un lead","d'où viennent les prospects","qui booke les appels","source des leads"],
+ k:["prospect","source","vient","arrive","origine"],
+ a:`De <b>deux façons</b> : soit <b>le prospect réserve lui-même</b> (vidéo de Loïc, VSL, pub Meta, recommandation), soit <b>un setter le booke</b> en DM ou au téléphone. Dans les deux cas, <b>c'est toi qui prends attache</b>. Et la source se note sur l'application à la création du dossier.`,
+ s:"Le lead arrive", l:["briefset","app"], rel:["attache","brief"]},
+
+{id:"attache", r:"closer", q:"Un rendez-vous vient d'être booké, je fais quoi ?",
+ v:["prendre attache","premier message au prospect","message de confirmation","je contacte le prospect quand","nouveau rdv","un rdv est booké","nouveau rendez-vous","quelqu'un a réservé un appel"],
+ k:["attache","booke","message","confirm","prospect","2h","temoign"],
+ a:`Dans les <b>2 h</b> qui suivent la réservation, quelle que soit la source, tu écris au prospect : tu confirmes sa venue et tu lui envoies la <b>page de témoignages</b>. Le message est prêt à copier dans l'étape, ton prénom est déjà dedans. <b>C'est le point à ne jamais rater</b> : un prospect qui a vu les témoignages arrive à moitié convaincu.`,
+ s:"Tu prends attache", l:["temoign"], rel:["rappel","recoit"]},
+
+{id:"rappel", r:"closer", q:"J'envoie un rappel avant l'appel ?",
+ v:["message une heure avant","rappel h-1","éviter les no show","le prospect ne vient pas"],
+ k:["rappel","heure","avant","show","noshow"],
+ a:`Oui, <b>une heure avant l'appel</b> : un dernier message, court et chaleureux, pour qu'il soit posé, devant son ordinateur, avec 45 minutes devant lui. C'est le dernier ancrage anti no-show.`,
+ s:"Tu prends attache", rel:["attache","prepa"]},
+
+{id:"recoit", r:"closer", q:"Qu'est-ce que le prospect reçoit sans moi ?",
+ v:["mail automatique","pdf d'intro","vidéo post vsl","ce qu'il a déjà reçu","j'envoie les pdf"],
+ k:["recoit","automatique","mail","pdf","vsl","intro"],
+ a:`Deux choses partent <b>toutes seules</b> : le <b>mail automatique</b> dans l'heure (PDF d'intro + PDF de témoignages) et la <b>vidéo post-VSL</b> sur la page de confirmation. Tu ne les envoies pas, mais tu sais qu'il les a. Toi, tu sors les <b>cas clients</b>, pendant l'appel.`,
+ s:"Ce que le prospect reçoit", l:["nurtPdf","postvsl"], rel:["cas","attache"]},
+
+{id:"brief", r:"closer", q:"C'est quoi le brief setting ?",
+ v:["où je trouve les infos du setter","notes du setter","brief du setter"],
+ k:["brief","setter","notes","iclosed"],
+ a:`Quand un setter a booké l'appel, il poste un <b>brief setting</b> dans le groupe dédié, en mentionnant qui a booké. Si c'est le setter appel, ses notes sont aussi sur <b>iClosed</b>. <b>Tu le lis toujours avant de décrocher</b> : jamais d'appel sans avoir lu le brief.`,
+ s:"Le lead arrive", l:["briefset"], rel:["prepa","lead"]},
+
+{id:"prepa", r:"closer", q:"Comment je prépare mon appel ?",
+ v:["avant l'appel","préparation de l'appel","quoi faire avant de décrocher","checklist avant appel"],
+ k:["prepar","avant","decroche","appel","checklist"],
+ a:`Avant de décrocher : tu relis le <b>brief setting</b> et les <b>notes iClosed</b>, tu vérifies la source et que l'activité est établie, tu regardes <b>ce qu'il a déjà dépensé en marketing</b>, tu as les <b>trois documents d'offre</b> et le lien de paiement prêts, et tu sors <b>les deux cas clients de son secteur</b>. Tes cinq documents d'appel sont en haut de la page : tu les ouvres avant, pas pendant.`,
+ s:"Ta préparation", l:["tplE","tplM","tplP","obj","nurtCas"], rel:["cas","quelleoffre","objection"]},
+
+{id:"cas", r:"closer", q:"Quels cas clients je montre ?",
+ v:["études de cas","case study","exemples de clients","témoignage à montrer","preuve sociale"],
+ k:["cas","client","exemple","etude","preuve","secteur","temoign"],
+ a:`Les <b>12 cas clients</b> sont dans le Drive nurturing. Tu en sors <b>deux, ceux de son secteur</b>, et tu racontes l'histoire au lieu de lire la fiche. <b>Un cas à l'écran, pas douze</b> : un coiffeur qui entend l'histoire de Mathilde se projette, un coiffeur qui reçoit douze fiches n'en lit aucune.`,
+ s:"Ta préparation", l:["nurtCas"], rel:["prepa","objection"]},
+
+{id:"objection", r:"closer", q:"Comment je réponds à une objection ?",
+ v:["le prospect dit c'est trop cher","il hésite","il doit réfléchir","il doit en parler à sa femme","traitement des objections"],
+ k:["objection","cher","hesite","reflechir","repondre"],
+ a:`Tu as la <b>fiche de traitement des objections</b> : pour chaque objection, la réponse et la preuve à sortir en face. Tu l'ouvres <b>avant</b> l'appel. Et tu ne promets jamais rien en dehors du document d'offre.`,
+ s:"Ta préparation", l:["obj"], rel:["cas","promesse"]},
+
+{id:"quelleoffre", r:"closer", q:"Quelle offre je propose au prospect ?",
+ v:["comment choisir l'offre","quelle offre pour quel client","il faut combien de chiffre d'affaires","quelle offre pour un client à 20k par mois"],
+ k:["offre","choisir","propose","budget","marketing","chiffre"],
+ a:`Ce qui tranche, c'est <b>le budget marketing déjà dépensé</b>, pas le chiffre d'affaires. En gros : <b>Élite</b> pour l'indépendant qui a le temps d'exécuter (environ 3 000 à 15 000 € par mois), <b>Mentorat</b> pour le chef d'entreprise qui veut déléguer (plus de 15 000 € par mois), <b>Partenariat</b> sur sélection, avec du budget pub en plus. Quelqu'un à 20 000 €/mois qui mettait 5 000 € en pub prendra le Mentorat plus facilement qu'un autre à 40 000 € qui n'a jamais rien dépensé.`,
+ s:"Ta préparation", l:["tplE","tplM","tplP"], rel:["prix","elite","mentorat","partenariat"]},
+
+{id:"prix", r:"closer", q:"Combien coûtent les offres ?",
+ v:["les prix","les tarifs","c'est combien","durée des offres"],
+ k:["prix","offre","combien","duree","mois"],
+ a:`<b>L'Élite Virale</b> : 8 000 € pour 4 mois. <b>Le Mentorat Viral</b> : 12 000 € pour 6 mois. <b>Le Partenariat Viral</b> : 25 000 € pour 6 mois, sur sélection.`,
+ s:"Ta préparation", l:["tplE","tplM","tplP"], rel:["echeance","minimum","quelleoffre"]},
+
+{id:"elite", r:"closer", q:"C'est quoi l'Élite Virale exactement ?",
+ v:["offre élite","l'élite"],
+ k:["elite","prix","combien"],
+ a:`<b>8 000 € · 4 mois.</b> Pour l'indépendant qui a le temps d'exécuter. On fait la stratégie, les concepts et le calendrier ; <b>le client écrit ses scripts, monte et publie</b> lui-même, et on corrige. Paiement : comptant, en 2 ou en 4 fois. Minimum encaissé pour démarrer : <b>2 000 €</b>.`,
+ s:"Ta préparation", l:["tplE"], rel:["mentorat","partenariat","livre"]},
+
+{id:"mentorat", r:"closer", q:"C'est quoi le Mentorat Viral exactement ?",
+ v:["offre mentorat","le mentorat"],
+ k:["mentorat","prix","combien"],
+ a:`<b>12 000 € · 6 mois.</b> Pour le chef d'entreprise qui veut déléguer, pas apprendre. On fait stratégie, concepts, calendrier, <b>scripts, montage et habillage</b> ; <b>le client tourne et publie</b>. Il a le prompt IA en fin de programme. Paiement : comptant, en 2 ou en 3 fois. Minimum encaissé : <b>3 000 €</b>.`,
+ s:"Ta préparation", l:["tplM"], rel:["elite","partenariat","livre"]},
+
+{id:"partenariat", r:"closer", q:"C'est quoi le Partenariat Viral exactement ?",
+ v:["offre partenariat","le partenariat"],
+ k:["partenariat","prix","combien"],
+ a:`<b>25 000 € · 6 mois, sur sélection.</b> On fait tout : stratégie, concepts, scripts, montage, <b>publication, tunnel, automatisations et publicité Meta</b>. Le client tourne, le reste c'est nous. Paiement : comptant ou en 6 fois. Minimum encaissé : <b>5 000 €</b>. Il prépare ses accès Instagram, TikTok, YouTube et son Business Manager Meta dès le démarrage.`,
+ s:"Ta préparation", l:["tplP"], rel:["elite","mentorat","livre"]},
+
+{id:"garantie", r:"all", q:"C'est quoi la garantie ?",
+ v:["1 million de vues","garantie 90 jours","si on n'atteint pas le million","on garantit quoi"],
+ k:["garantie","million","vues","90","jours"],
+ a:`<b>1 000 000 de vues en 90 jours</b>, écrit dans les CGV (article 10). Le compte à rebours démarre à la <b>première publication</b>, pas à la signature. Si le million n'est pas atteint, <b>c'est le client qui choisit</b> : on continue sans frais jusqu'au million, ou on rembourse l'intégralité sous 30 jours. Sans choix exprimé, on continue. Elle ne tient que s'il a respecté les <b>10 conditions</b> : un seul manquement et elle tombe.`,
+ s:"La garantie", l:["cgv"], rel:["conditions","rembourse","promesse"]},
+
+{id:"conditions", r:"all", q:"Quelles sont les conditions de la garantie ?",
+ v:["la garantie tombe quand","ce que le client doit faire pour la garantie","conditions cumulatives"],
+ k:["conditions","tombe","manquement","publie","cumulative"],
+ a:`Dix conditions cumulatives : il <b>publie tous les jours</b> 100 % du calendrier, sur <b>toutes les plateformes</b> (Instagram, TikTok, YouTube Shorts), il <b>applique les consignes</b>, fait <b>tous les tournages</b> dans les délais, valide en <b>moins de 48 h</b>, donne et laisse <b>tous les accès</b>, garde ses comptes <b>publics et actifs</b>, est <b>présent aux appels</b> et répond sous 24 h, envoie ses <b>statistiques</b> sur demande, et <b>paie ses échéances à la date</b>. Un seul manquement et la garantie tombe.`,
+ s:"La garantie", rel:["garantie","rembourse"]},
+
+{id:"rembourse", r:"all", q:"Le client peut-il être remboursé ?",
+ v:["remboursement","il veut être remboursé","rembourser le client"],
+ k:["rembourse","argent","recuperer"],
+ a:`Uniquement dans le cadre de la garantie : si le million de vues n'est pas atteint en 90 jours <b>et</b> qu'il a tenu les 10 conditions, il choisit entre la poursuite gratuite et le <b>remboursement intégral sous 30 jours</b> (le contrat s'arrête et les accès sont coupés). Il doit le demander <b>par écrit dans les 14 jours</b>, captures de statistiques à l'appui. On ne dit jamais « sinon tu ne paies pas » : ce n'est pas ce que disent les CGV.`,
+ s:"La garantie", l:["cgv"], rel:["garantie","conditions"]},
+
+{id:"promesse", r:"closer", q:"Qu'est-ce que j'ai le droit de promettre ?",
+ v:["je peux promettre un chiffre","promettre des clients","promettre du chiffre d'affaires"],
+ k:["promesse","chiffre","resultat"],
+ a:`Rien en dehors du document d'offre. On ne promet <b>aucun chiffre d'affaires</b>, aucun coût par rendez-vous, aucun taux de conversion. On promet des <b>vues</b> (la garantie), et on montre des <b>messages entrants</b>.`,
+ s:"La garantie", rel:["garantie","objection"]},
+
+{id:"cgv", r:"closer", q:"Quand le client signe les CGV ?",
+ v:["conditions générales","jotform","signature des cgv","le client doit signer quoi"],
+ k:["cgv","signe","avant","jotform"],
+ a:`<b>Toujours AVANT le paiement.</b> Via <b>Whop</b>, c'est intégré : le client coche la case au checkout. <b>Hors Whop</b>, tu envoies le lien <b>Jotform</b> et tu vérifies la signature <b>avant</b> d'envoyer le RIB. Signées, pas seulement envoyées.`,
+ s:"Le paiement", l:["cgv"], rel:["virement","lienpaie"]},
+
+{id:"minimum", r:"all", q:"Combien il faut encaisser pour démarrer ?",
+ v:["minimum pour lancer l'onboarding","on démarre quand","encaissement minimum","seuil"],
+ k:["minimum","encaisse","demarre","lancer","onboarding"],
+ a:`On ne démarre pas sans encaissement. Minimum arrivé sur le compte : <b>2 000 € sur l'Élite</b>, <b>3 000 € sur le Mentorat</b>, <b>5 000 € sur le Partenariat</b>. Un virement annoncé ou une capture d'écran ne comptent pas. C'est <b>Léa</b> qui vérifie et qui débloque.`,
+ s:"On ne démarre pas", rel:["acompte","echeance"]},
+
+{id:"acompte", r:"closer", q:"Un acompte suffit pour lancer l'onboarding ?",
+ v:["il a payé 500","il a payé 1000","acompte de réservation"],
+ k:["minimum","500","1000","suffit"],
+ a:`Non. Un <b>acompte seul</b> (500 € ou 1 000 €) ne suffit pas : l'onboarding ne part qu'une fois le minimum encaissé (2 000 / 3 000 / 5 000 € selon l'offre).`,
+ s:"On ne démarre pas", l:["aco1","aco5"], rel:["minimum","lienpaie"]},
+
+{id:"lienpaie", r:"closer", q:"Quel lien de paiement j'envoie ?",
+ v:["lien whop","envoyer le lien de paiement","je crée un lien","lien de paiement personnalisé"],
+ k:["lien","paiement","whop","envoie","cree"],
+ a:`<b>Un seul lien</b> : celui du plan retenu pendant l'appel, jamais la liste. Les dix liens de l'étape sont les seuls valables : tu n'en crées <b>jamais</b> un toi-même. Un cas particulier, c'est <b>Léa</b>.`,
+ s:"Le paiement", rel:["echeance","virement","cgv"]},
+
+{id:"echeance", r:"closer", q:"Le client peut payer en combien de fois ?",
+ v:["paiement en plusieurs fois","facilités de paiement","il veut payer en 10 fois","mensualités","échéancier"],
+ k:["echeance","paiement","fois","combien"],
+ a:`<b>Élite</b> : comptant, en 2 ou en 4 fois. <b>Mentorat</b> : comptant, en 2 ou en 3 fois. <b>Partenariat</b> : comptant ou en 6 fois. <b>Jamais au-delà.</b> Un cas particulier, c'est Léa qui s'en occupe.`,
+ s:"Le paiement", l:["wEc","wE2","wE4","wMc","wM2","wM3","wPc","wP6"], rel:["lienpaie","minimum"]},
+
+{id:"virement", r:"closer", q:"Le client veut payer par virement, je fais quoi ?",
+ v:["envoyer le rib","iban","coordonnées bancaires","paiement hors whop","bic ou swift"],
+ k:["virement","paiement","rib","cgv"],
+ a:`D'abord les <b>CGV sur Jotform</b> : tu vérifies qu'elles sont <b>signées</b>. Ensuite seulement, le RIB : <b>LIBERTY SOLUTIONS LLC</b> · IBAN <b>BE50 9678 9497 5718</b> · BIC / SWIFT <b>TRWIBEB1XXX</b> (Wise, Bruxelles). Client dans l'UE, on dit BIC ; hors UE, SWIFT : c'est le même code. L'accès Viralité Booster se donne alors à la main sur Skool.`,
+ s:"Le paiement", l:["cgv"], rel:["cgv","booster","minimum"]},
+
+{id:"verifs", r:"closer", q:"Quelles sont les 6 vérifications après une vente ?",
+ v:["après le closing","checklist après la vente","le client a signé je fais quoi","j'ai closé"],
+ k:["verif","closing","signe","vente","apres","checklist","closer"],
+ a:`Dans l'heure qui suit : <b>1</b> iClosed rempli · <b>2</b> CGV signées · <b>3</b> paiement en place (encaissé ou échéancier créé) · <b>4</b> client créé sur l'application · <b>5</b> groupe client créé, avec le logo · <b>6</b> ping dans le groupe équipe. Tant que ces six points ne sont pas faits, le dossier ne part pas au coach.`,
+ s:"Les 6 vérifications", l:["app"], rel:["groupe","ping","msgonb"]},
+
+{id:"groupe", r:"closer", q:"Comment je crée le groupe client ?",
+ v:["groupe whatsapp client","nom du groupe","qui mettre dans le groupe","photo du groupe"],
+ k:["groupe","client","logo","nom","cree"],
+ a:`Tu le crées <b>au closing</b>. Nom : « Nom Prénom - Élite Virale », « - Mentorat Viral » ou « - Partenariat Viral ». Membres : <b>le client, Loïc, Léa et le coach</b>. Et tu mets le <b>logo de l'offre (É, M ou P) en icône du groupe</b>. C'est le seul groupe du process.`,
+ s:"Les 6 vérifications", l:["logoE","logoM","logoP"], rel:["verifs","msgonb"]},
+
+{id:"msgonb", r:"closer", q:"Quel message j'envoie au client après la vente ?",
+ v:["message d'onboarding","message de bienvenue","message dans le groupe client","formulaire et calendly","j'envoie quoi au client après la vente","quoi envoyer après la vente"],
+ k:["onboarding","message","bienvenue","formulaire","calendly"],
+ a:`Le message d'onboarding se génère dans l'étape 5 : tu choisis <b>l'offre, le paiement et le coach</b>, tu copies, tu remplaces <b>[prénom]</b>. Il contient le formulaire et les deux Calendly. Il part dans le groupe client <b>une fois le minimum encaissé</b>, jamais avant.`,
+ s:"Les 6 vérifications", l:["formE","formM","formP","calR","calJ"], rel:["booster","apresonb"]},
+
+{id:"ping", r:"closer", q:"Comment je fais le ping dans le groupe équipe ?",
+ v:["annoncer une vente","format du ping","message groupe équipe"],
+ k:["ping","equipe","vente","annonce"],
+ a:`Dans le groupe équipe : <b>nom · offre · montant · source · plan</b>, et tu termines par <b>app ✅ cgv ✅ wa ✅ iClosed ✅</b>. Une vente par ping, chaque jour.`,
+ s:"Les 6 vérifications", rel:["verifs","fiche"]},
+
+{id:"booster", r:"closer", q:"Qui donne l'accès à Viralité Booster ?",
+ v:["accès skool","viralité booster","le client n'a pas son accès"],
+ k:["booster","acces","whop"],
+ a:`<b>C'est toi, le closer</b>, une fois le minimum encaissé. Via Whop, c'est automatique ; sinon, tu le donnes à la main sur Skool. Dans les deux cas, <b>tu vérifies toujours</b>.`,
+ s:"Les 6 vérifications", l:["skool"], rel:["msgonb","virement"]},
+
+{id:"apresonb", r:"closer", q:"Il se passe quoi après l'onboarding ?",
+ v:["la suite pour le client","h+24","h+72","h+120","quand le coach prend le relais"],
+ k:["apres","onboarding","suite","coach","relais"],
+ a:`<b>H+24</b> : le client remplit le formulaire (tu relances sinon). <b>H+72</b> : l'appel d'onboarding avec Loïc et les coachs. <b>H+120</b> : setup validé et premier tournage. À partir de là, <b>c'est le coach le référent</b>.`,
+ s:"Les 6 vérifications", rel:["coachstart","msgonb"]},
+
+{id:"pasclose", r:"closer", q:"Le prospect n'a pas signé, je fais quoi ?",
+ v:["pas closé","il a dit non","il veut réfléchir","relancer un prospect","à requalifier"],
+ k:["non","relance","reflechir","refus","perdu"],
+ a:`<b>Pas closé</b> : tu notes le motif dans iClosed et tu programmes la relance. <b>À requalifier</b> : tu repasses la main au setter. Et dans tous les cas, l'enregistrement va dans le Drive.`,
+ s:"Ta préparation", rel:["enregistrement","objection"]},
+
+{id:"enregistrement", r:"closer", q:"Où je mets l'enregistrement de l'appel ?",
+ v:["enregistrer l'appel","nommer l'enregistrement","drive des appels"],
+ k:["enregistr","drive","appel"],
+ a:`Dans le <b>Drive des enregistrements</b>, nommé <b>NOM PRÉNOM — DATE — CLOSÉ / PAS CLOSÉ</b>. Closé ou non, systématiquement.`,
+ s:"Ton rituel", l:["enr"], rel:["pasclose","eod"]},
+
+{id:"fiche", r:"all", q:"Pourquoi la fiche client doit être complète sur l'application ?",
+ v:["commission","remplir l'application","créer le client sur l'app","ma commission"],
+ k:["app","fiche","commission","client","cree"],
+ a:`Un client incomplet sur l'application, c'est une vente qui n'existe pas : <b>ni commission calculée, ni suivi possible, ni relance d'échéance</b>. Nom, offre, montant, source, plan de paiement, date de début : tout doit y être, le jour même.`,
+ s:"Ton rituel", l:["app"], rel:["verifs","impaye"]},
+
+{id:"impaye", r:"all", q:"Un client ne paie plus son échéance, je fais quoi ?",
+ v:["impayé","échéance en retard","paiement refusé","il ne paie pas","il ne paie plus","il a arrêté de payer"],
+ k:["impaye","paiement","echeance","retard"],
+ a:`Tu le signales <b>le jour où il apparaît</b>. C'est <b>Léa</b> qui coche l'impayé sur l'application, et c'est ça qui déclenche le process. Côté coach : contact le jour même en privé et dans le groupe, appel à J+1, ping à Léa à J+2, et à J+3 Léa annonce la coupure des accès.`,
+ s:"Le client qui ne répond plus", r2:"coach", rel:["silence","fiche"]},
+
+{id:"commission", r:"all", q:"Combien je suis payé ? Comment marche ma commission ?",
+ v:["ma rémunération","mon salaire","combien je gagne","ma commission","quand je suis payé"],
+ k:["commission","paye","gagne","salaire"],
+ a:`Ta rémunération est écrite dans ton <b>contrat de prestation</b> : elle n'est pas la même pour un closer, un setter ou un coach. Pour toute question dessus, c'est <b>Léa</b>. Et pour qu'une commission soit calculée, la vente doit être <b>complète sur l'application</b> : une fiche incomplète, c'est une vente qui n'existe pas.`,
+ s:"Ton contrat", l:["contrat","app"], rel:["fiche","contrat"]},
+
+/* ---------- coach ---------- */
+{id:"coachstart", r:"coach", q:"Quand je prends la main sur un client ?",
+ v:["quand j'interviens","le dossier arrive","je suis référent quand"],
+ k:["coach","main","referent","dossier","arrive","quand"],
+ a:`Tu es dans le groupe client <b>dès sa création</b>, mais tu prends vraiment la main à <b>H+120</b>, après le setup. Le dossier ne t'arrive qu'une fois les 6 vérifications du closer faites et le minimum encaissé.`,
+ s:"Le dossier arrive", rel:["formulaire","appelonb"]},
+
+{id:"formulaire", r:"coach", q:"Je fais quoi des réponses au formulaire ?",
+ v:["formulaire client","réponses du client","où sont les réponses"],
+ k:["formulaire","reponse","client","lire"],
+ a:`C'est ta matière première. Tu le lis <b>avant</b> l'appel d'onboarding, pour arriver avec des questions précises. Et tu ne redemandes <b>jamais</b> au client ce qu'il a déjà donné dans le formulaire.`,
+ s:"Tu lis les réponses", l:["repE","repM","repP"], rel:["appelonb"]},
+
+{id:"appelonb", r:"coach", q:"Comment se passe l'appel d'onboarding ?",
+ v:["appel de lancement","premier appel client","h+72"],
+ k:["appel","onboarding","lancement","synthese"],
+ a:`1 h, à <b>H+72</b>, avec <b>Loïc et les coachs</b>. Tu en sors avec une synthèse complète : positionnement, audience, concurrents directs, objectifs, plan des 4 semaines. Juste après, le questionnaire de démarrage part dans le groupe.`,
+ s:"L'appel d'onboarding", l:["calR","calJ"], rel:["questionnaire","setup"]},
+
+{id:"setup", r:"coach", q:"Le client doit acheter du matériel ?",
+ v:["caméra","micro","lumière","setup","premier tournage","matériel"],
+ k:["materiel","setup","tournage","acheter"],
+ a:`<b>On vérifie ce qu'il a déjà avant de lui faire acheter quoi que ce soit.</b> Le setup se valide en visio à H+120 : cadrage, lumière, son. C'est aussi le premier tournage.`,
+ s:"Setup validé", rel:["coachstart","livre"]},
+
+{id:"questionnaire", r:"coach", q:"Quels questionnaires j'envoie et quand ?",
+ v:["questionnaire de satisfaction","sondage client","questionnaire final"],
+ k:["questionnaire","satisfaction","mois","envoie"],
+ a:`Trois : <b>au démarrage</b>, juste après l'appel d'onboarding ; <b>chaque mois</b>, la satisfaction, sans attendre qu'on te le demande ; <b>le dernier mois</b>, avant la remise de son système (témoignage, chiffres réels, autorisation). Toujours <b>dans le groupe client</b>, jamais en privé.`,
+ s:"Le questionnaire de démarrage", l:["q1","q2","q3"], rel:["rythme","bilan"]},
+
+{id:"livre", r:"coach", q:"Qu'est-ce qu'on livre selon l'offre ?",
+ v:["qui fait les scripts","qui fait le montage","qui publie","delivery","ce qu'on livre"],
+ k:["livre","delivery","script","montage","publication"],
+ a:`Stratégie, concepts et calendrier : <b>nous</b>, pour les trois offres. <b>Élite</b> : le client écrit ses scripts, monte et publie. <b>Mentorat</b> : on écrit les scripts, notre monteur monte et habille, le client publie. <b>Partenariat</b> : on fait tout, publication, tunnel, automatisations et pub Meta comprises. Le prompt IA en fin de programme : Mentorat et Partenariat.`,
+ s:"Ce que tu livres", rel:["elite","mentorat","partenariat"]},
+
+{id:"rythme", r:"coach", q:"Quel rythme je tiens avec mes clients ?",
+ v:["combien d'appels","fréquence des points","calendrier par quinzaine"],
+ k:["rythme","appel","calendrier","quinzaine","point","mois"],
+ a:`Le <b>calendrier par quinzaine</b>, avec un lien par concept. Appels illimités, mais <b>c'est toi qui restes demandeur</b> : au moins deux points par mois. Tu formes au non verbal et au rythme, tu envoies le questionnaire chaque mois, et les résultats qui sortent du lot remontent à Loïc en privé.`,
+ s:"Le rythme que tu tiens", l:["q2"], rel:["questionnaire","prompt"]},
+
+{id:"prompt", r:"coach", q:"Comment j'utilise le prompt V2 ?",
+ v:["projet claude","prompt ia","prompt calendrier","prompt script"],
+ k:["prompt","projet","script","calendrier"],
+ a:`Tu l'installes <b>une seule fois</b> : tu ouvres le projet Claude de délivrabilité V2 (le même pour tous les clients) et tu colles le prompt V2 en entier <b>dans les instructions du projet</b>. Ensuite, <b>une conversation par client</b>. Il remplace les trois anciens prompts.`,
+ s:"Le prompt V2", l:["v2","yt","dcoach"], rel:["rythme","livre"]},
+
+{id:"silence", r:"coach", q:"Mon client ne répond plus, je fais quoi ?",
+ v:["client fantôme","il ne donne plus de nouvelles","il ne publie plus","il a décroché"],
+ k:["relance","repond","silence","client","decroche"],
+ a:`S'il a payé mais ne répond plus : <b>J+1</b> message personnel en privé, court et sans reproche ; <b>J+2</b> tu l'appelles ; <b>J+3</b> relance dans le groupe avec Loïc en visibilité ; <b>J+5</b> tu pingues Léa. Jamais trois messages d'affilée : au deuxième silence, on appelle.`,
+ s:"Le client qui ne répond plus", l:["qrep","app"], rel:["impaye","conditions"]},
+
+{id:"bilan", r:"coach", q:"Comment se passe la fin de l'accompagnement ?",
+ v:["dernier mois","bilan de fin","témoignage client","clôture"],
+ k:["bilan","fin","temoign","cloture"],
+ a:`<b>M-1</b> : tu annonces la date de fin et tu cales le bilan. <b>J-10</b> : le bilan chiffré (vues, abonnés, messages, prospects, ventes), puis le témoignage vidéo de 2 min dans la foulée. <b>J-0</b> : la clôture, c'est Léa. Le bilan et le témoignage vont dans la section témoignages du Drive.`,
+ s:"La dernière ligne droite", l:["q3","nurt"], rel:["prolong"]},
+
+{id:"prolong", r:"coach", q:"Je peux proposer une prolongation ?",
+ v:["upsell","renouvellement","continuer après la fin","prix de la prolongation"],
+ k:["prolong","upsell","propose"],
+ a:`Oui, <b>au bilan, et seulement au bilan</b> : jamais avant, et pas sans résultat chiffré. Élite : 3 mois de plus pour <b>3 500 €</b>. Mentorat : 4 mois pour <b>5 500 €</b>. Partenariat : 4 mois pour <b>9 500 €</b>. Le bonus : les audits en illimité avec son coach.`,
+ s:"La dernière ligne droite", l:["upsell"], rel:["bilan"]},
+
+/* ---------- setter ---------- */
+{id:"postes", r:"setter", q:"Quels sont les postes de setting ?",
+ v:["c'est quoi un setter","setting insta","setter appel","mon poste"],
+ k:["setter","poste","insta","linkedin","dm","appel"],
+ a:`Deux postes : le <b>Setting Insta / LinkedIn</b>, qui travaille les DM sur les comptes de Loïc, qualifie et booke ; et le <b>setter appel</b>, qui appelle pour booker du call et met ses notes sur iClosed. Les deux postent leur <b>brief setting</b>. Ton travail s'arrête au créneau booké et au brief posté.`,
+ s:"Lequel des deux settings", rel:["cible","briefsetter"]},
+
+{id:"cible", r:"setter", q:"Qui est la cible ? Qui je booke ?",
+ v:["profil du prospect","quel prospect qualifier","qualification","qui ne pas booker"],
+ k:["qualif","booke","prospect","activite","b2b"],
+ a:`<b>B2B, une activité déjà établie, du chiffre d'affaires et du budget.</b> On ne booke pas quelqu'un qui cherche encore son offre. Et tu notes la source sur l'application à la création du dossier.`,
+ s:"Tu sources et tu qualifies", l:["app"], rel:["budget","briefsetter"]},
+
+{id:"briefsetter", r:"setter", q:"Comment je fais mon brief setting ?",
+ v:["poster le brief","après avoir booké","groupe brief setting"],
+ k:["brief","booke","apres","poste"],
+ a:`Tu postes ton brief dans le <b>groupe brief setting</b>, en <b>mentionnant qui a booké l'appel</b>. L'objectif : que le closer ait un maximum d'informations avant de décrocher. Setter appel : tes notes vont en plus sur <b>iClosed</b>. Ensuite, <b>c'est le closer qui prend attache</b> avec le prospect.`,
+ s:"Ton brief setting", l:["briefset"], rel:["budget","cible"]},
+
+{id:"budget", r:"setter", q:"Qu'est-ce que je dois absolument noter ?",
+ v:["info importante pour le closer","budget marketing","qu'est-ce qui compte le plus"],
+ k:["note","budget","marketing","important"],
+ a:`<b>Ce qu'il a déjà dépensé en marketing.</b> C'est le vrai critère pour l'offre, plus que le chiffre d'affaires : quelqu'un à 20 000 €/mois qui investissait 5 000 € en pub prendra le Mentorat bien plus facilement qu'un autre à 40 000 € qui n'a jamais rien dépensé.`,
+ s:"Ce que tu notes", rel:["briefsetter","cible"]},
+
+{id:"source", r:"setter", q:"Où je note la source du lead ?",
+ v:["d'où vient le prospect","source du rendez-vous"],
+ k:["source","app","note"],
+ a:`Sur l'<b>application</b>, à la création du dossier. Jamais vide : c'est ce qui permet de savoir ce qui ramène vraiment des clients.`,
+ s:"Tu sources et tu qualifies", l:["app"], rel:["cible"]},
+
+{id:"requalif", r:"setter", q:"Je peux requalifier un prospect ?",
+ v:["requalifier","appeler les calls à venir","soulager les closers"],
+ k:["requalif","appel","closer"],
+ a:`Oui : tu peux <b>appeler les calls à venir</b> pour soulager les closers, et requalifier quand c'est nécessaire. Quand un closer te renvoie un prospect à requalifier, tu reprends la main.`,
+ s:"Tu peux requalifier", rel:["briefsetter"]},
+
+{id:"nurturing", r:"setter", q:"Je recontacte le prospect après l'avoir booké ?",
+ v:["je contacte le prospect après","je relance le prospect","j'envoie les témoignages","je fais le nurturing","je confirme le rendez-vous"],
+ k:["prospect","contacte","nurturing","temoign","confirm"],
+ a:`Non : dès le rendez-vous pris, <b>c'est le closer qui prend attache</b> avec le prospect et lui envoie les témoignages. Ton travail s'arrête au créneau booké et au <b>brief posté</b> : c'est ce brief qui fait la différence à ce moment-là.`,
+ s:"Le nurturing ne t'appartient plus", rel:["briefsetter","budget"]}
+];
+
+/* ---------- le moteur ---------- */
+const A_STOP = new Set(("va vais vont dire le la les un une des de du d l j je tu il elle on nous vous ils elles me te se ce cet cette ces est et ou a au aux en dans par pour sur avec sans que qui quoi quand comment pourquoi ne n pas plus mon ma mes ton ta tes son sa ses leur leurs y c qu s m t faire fait fais faut doit dois quel quelle quels quelles si mais donc alors comme ca cela ceci tout tous toute toutes sont etre avoir ai as avez ont suis es veux veut peut peux moi toi lui eux chose truc bien bon dois est-ce estce exactement vraiment juste deja ici la-bas encore svp stp please hey").split(" "));
+const A_SYN = {
+  payer:"paiement",paye:"paiement",payes:"paiement",paie:"paiement",paient:"paiement",payement:"paiement",paiement:"paiement",paiements:"paiement",regler:"paiement",reglement:"paiement",regle:"paiement",
+  encaisse:"encaisse",encaisser:"encaisse",encaissement:"encaisse",encaisses:"encaisse",
+  virement:"virement",virements:"virement",rib:"virement",iban:"virement",bic:"virement",swift:"virement",banque:"virement",bancaire:"virement",bancaires:"virement",wise:"virement",
+  cb:"whop",carte:"whop",whop:"whop",checkout:"whop",
+  cgv:"cgv",generales:"cgv",jotform:"cgv",
+  signer:"signe",signe:"signe",signature:"signe",signee:"signe",signees:"signe",signes:"signe",
+  garantie:"garantie",garanti:"garantie",garantit:"garantie",garantir:"garantie",million:"garantie",millions:"garantie",
+  rembourse:"rembourse",rembourser:"rembourse",remboursement:"rembourse",rembourses:"rembourse",remboursee:"rembourse",
+  offre:"offre",offres:"offre",programme:"offre",formule:"offre",formules:"offre",
+  prix:"prix",tarif:"prix",tarifs:"prix",coute:"prix",coutent:"prix",cout:"prix",combien:"combien",montant:"prix",cher:"cher",
+  fois:"fois",mensualite:"echeance",mensualites:"echeance",echeance:"echeance",echeances:"echeance",echelonne:"echeance",echelonner:"echeance",plusieurs:"fois",versements:"echeance",versement:"echeance",echeancier:"echeance",
+  minimum:"minimum",minimal:"minimum",seuil:"minimum",acompte:"minimum",acomptes:"minimum",
+  groupe:"groupe",groupes:"groupe",whatsapp:"groupe",wa:"groupe",
+  relance:"relance",relancer:"relance",relances:"relance",repond:"repond",reponds:"repond",repondre:"repond",ghost:"silence",silence:"silence",disparu:"silence",injoignable:"silence",nouvelles:"silence",fantome:"silence",
+  impaye:"impaye",impayes:"impaye",impayee:"impaye",retard:"retard",
+  prospect:"prospect",prospects:"prospect",lead:"prospect",leads:"prospect",
+  rdv:"appel",rendez:"appel",call:"appel",calls:"appel",appel:"appel",appels:"appel",entretien:"appel",visio:"appel",
+  booke:"booke",booker:"booke",booking:"booke",bookes:"booke",reserve:"booke",reservation:"booke",creneau:"booke",reserver:"booke",
+  temoignage:"temoign",temoignages:"temoign",resultats:"temoign",
+  objection:"objection",objections:"objection",
+  coach:"coach",coachs:"coach",coaches:"coach",
+  onboarding:"onboarding",onboard:"onboarding",bienvenue:"onboarding",
+  contrat:"contrat",contrats:"contrat",acces:"acces",
+  eod:"eod",reunion:"reunion",meeting:"reunion",
+  enregistrement:"enregistr",enregistrer:"enregistr",enregistre:"enregistr",enregistrements:"enregistr",
+  iclosed:"iclosed",
+  application:"app",app:"app",appli:"app",crm:"app",
+  booster:"booster",viralite:"booster",skool:"booster",
+  formulaire:"formulaire",formulaires:"formulaire",form:"formulaire",
+  questionnaire:"questionnaire",questionnaires:"questionnaire",satisfaction:"questionnaire",sondage:"questionnaire",
+  bilan:"bilan",cloture:"bilan",
+  upsell:"prolong",prolongation:"prolong",prolonger:"prolong",renouveler:"prolong",renouvellement:"prolong",
+  prompt:"prompt",claude:"prompt",
+  setter:"setter",setters:"setter",setting:"setter",closer:"closer",closers:"closer",closing:"closer",close:"closer",closes:"closer",
+  qualifier:"qualif",qualifie:"qualif",qualification:"qualif",qualif:"qualif",cible:"qualif",
+  requalifier:"requalif",requalif:"requalif",requalification:"requalif",
+  promettre:"promesse",promesse:"promesse",promesses:"promesse",promets:"promesse",promet:"promesse",
+  elite:"elite",mentorat:"mentorat",partenariat:"partenariat",
+  logo:"logo",logos:"logo",icone:"logo",photo:"logo",
+  materiel:"materiel",camera:"materiel",micro:"materiel",lumiere:"materiel",
+  commission:"commission",commissions:"commission",remuneration:"commission",
+  process:"process",
+  verification:"verif",verifications:"verif",verifier:"verif",verifs:"verif",
+  livrer:"livre",livraison:"livre",livrable:"livre",livrables:"livre",delivery:"livre",livre:"livre",
+  scripts:"script",script:"script",montage:"montage",monter:"montage",monteur:"montage",publier:"publie",publication:"publie",publie:"publie",
+  vues:"vues",vue:"vues",
+  recap:"recap",recapitulatif:"recap",recapitule:"recap",resume:"recap",resumer:"recap",resumes:"recap",synthese:"recap",
+  compare:"recap",comparer:"recap",comparatif:"recap",comparaison:"recap",presente:"recap",presenter:"recap",
+  explique:"recap",expliquer:"recap",liste:"recap",lister:"recap",apercu:"recap",global:"recap",
+  difference:"differ",differences:"differ",different:"differ",differentes:"differ",
+  poste:"poste",postes:"poste",role:"role",roles:"role",job:"job",boulot:"job",taf:"job",travail:"job",mission:"mission",missions:"mission"
+};
+function aNorm(s){
+  return (s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[’']/g," ").replace(/→/g," ").replace(/[^a-z0-9+ ]+/g," ");
+}
+/* écriture SMS et abréviations courantes */
+const A_SMS = {koi:"quoi",kwa:"quoi",kan:"quand",qd:"quand",pk:"pourquoi",pq:"pourquoi",pr:"pour",ds:"dans",tjr:"toujours",tjrs:"toujours",
+  bcp:"beaucoup",cmb:"combien",cbien:"combien",cb1:"combien",slt:"salut",mrc:"merci",mci:"merci",plu:"plus",tro:"trop",trp:"trop",
+  diff:"difference",dif:"difference",ya:"il y a",jsp:"je sais pas",vs:"vous",pa:"pas",jpeux:"je peux",jveux:"je veux",
+  stp:"",svp:"",nn:"non",ok:"ok",dac:"d accord",reu:"reunion",rdv:"rdv",cc:"coucou",bjr:"bonjour",bsr:"bonsoir",cv:"ca va",
+  explik:"explique",quil:"qu il",quel:"quel",sa:"ca",sava:"ca va",ca:"ca",jdois:"je dois",jsais:"je sais",cque:"ce que",kel:"quel",kelle:"quelle",expliqu:"explique",recap:"recap",info:"information",infos:"information",whatsap:"whatsapp",watsap:"whatsapp",wtsp:"whatsapp"};
+function aLev(a,b){
+  if(Math.abs(a.length-b.length) > 2) return 9;
+  const d = []; for(let i=0;i<=a.length;i++){ d[i]=[i]; }
+  for(let j=1;j<=b.length;j++) d[0][j]=j;
+  for(let i=1;i<=a.length;i++) for(let j=1;j<=b.length;j++)
+    d[i][j] = Math.min(d[i-1][j]+1, d[i][j-1]+1, d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));
+  return d[a.length][b.length];
+}
+let A_VOC = null;                 /* les mots connus, construit plus bas */
+function aWord(w, deep){
+  if(!w || A_STOP.has(w)) return null;
+  if(A_SYN[w]) return A_SYN[w];
+  if(w.length < 2 && !/\d/.test(w)) return null;
+  if(A_VOC && deep && !A_VOC.has(w) && !/\d/.test(w)){
+    /* l'apostrophe oubliée : jfais, jai, lelite, lenregistrement, jenvoie */
+    if(/^[jldmtsnc][^aeiouy]/.test(w) || /^[jldmtsnc][aeiouy]/.test(w)){
+      const r = w.slice(1);
+      if(A_STOP.has(r)) return null;
+      if(r.length >= 3 && (A_VOC.has(r) || A_SYN[r])) return aWord(r, false);
+      if(w.startsWith("qu") && A_VOC.has(w.slice(2))) return aWord(w.slice(2), false);
+    }
+    /* la faute de frappe : garentie, virment, menthorat */
+    if(w.length >= 5){
+      const max = w.length >= 7 ? 2 : 1;
+      let best = null, bd = 9;
+      A_VOC.forEach(v=>{ if(v.length < 4) return; const d = aLev(w, v); if(d < bd){ bd = d; best = v; } });
+      if(best && bd <= max) return aWord(best, false);
+      /* apostrophe oubliée + faute */
+      if(/^[jldmtsnc]/.test(w) && w.length >= 5){
+        const r = w.slice(1); best = null; bd = 9;
+        A_VOC.forEach(v=>{ if(v.length < 4) return; const d = aLev(r, v); if(d < bd){ bd = d; best = v; } });
+        if(best && bd <= (r.length >= 7 ? 2 : 1)) return aWord(best, false);
+      }
+    }
+  }
+  let t = w;
+  if(t.length > 4 && /[sx]$/.test(t)) t = t.slice(0,-1);
+  if(A_SYN[t]) return A_SYN[t];
+  return t.length > 6 ? t.slice(0,6) : t;
+}
+function aTok(s){
+  const out = [];
+  aNorm(s).replace(/\bcb (ca|c|coute|de|tu|il|je|on|le|la|l)\b/g, "combien $1").split(/\s+/).forEach(w0=>{
+    const ex = A_SMS[w0] !== undefined ? A_SMS[w0] : w0;
+    ex.split(" ").forEach(w=>{ const t = aWord(w, true); if(t) out.push(t); });
+  });
+  return out;
+}
+A_VOC = new Set();
+KB.forEach(e=>[e.q, e.a.replace(/<[^>]+>/g," "), (e.v||[]).join(" "), e.k.join(" ")].forEach(x=>
+  aNorm(x).split(/\s+/).forEach(w=>{ if(w.length >= 3 && !A_STOP.has(w)) A_VOC.add(w); })));
+Object.keys(A_SYN).forEach(w=>{ if(w.length >= 3) A_VOC.add(w); });
+const A_IDX = KB.map(e=>{
+  const w = {};
+  const add = (toks, n)=>toks.forEach(t=>{ if(!w[t] || w[t] < n) w[t] = n; });
+  add(aTok(e.a.replace(/<[^>]+>/g," ")), 0.4);
+  add(aTok(e.q), 2); (e.v||[]).forEach(v=>add(aTok(v), 2));
+  add(e.k.map(x=>A_SYN[x] || (x.length>6 ? x.slice(0,6) : x)), 3);
+  return w;
+});
+A_IDX.forEach(w=>{ if(w.recap) w.recap = 1; });     /* « récap » oriente, le sujet décide */
+const A_DF = {};
+A_IDX.forEach(w=>Object.keys(w).forEach(t=>{ if(w[t] >= 2) A_DF[t] = (A_DF[t]||0)+1; }));
+
+let curRole = "closer";
+function aSearch(text){
+  const n0 = aNorm(text);
+  if(/\b(paie|paye|payent|paient|regle)\s+(plus|plu|pas)\b|arrete de pay|plus pay/.test(n0)) text += " impaye";
+  if(/\b(repond|reponds|repondent)\s+(plus|plu|pas)\b|plus de nouvelles/.test(n0)) text += " silence";
+  if(/(promet|promes|dire|assure|annonce).*\b(chiffre|ca|ventes?|clients?|resultats?|rentab)/.test(n0)) text += " promesse";
+  if(/\b(suis|sui|serai|serais|jsuis)\s+(paye|payee)|remuner|salaire|\bgagne|\bpaye combien/.test(n0)) text += " commission";
+  const q = [...new Set(aTok(text))];
+  if(!q.length) return [];
+  return KB.map((e,i)=>{
+    let sc = 0, strong = 0;
+    q.forEach(t=>{
+      let w = A_IDX[i][t] || 0;
+      if(!w && t.length >= 5){            /* tolérance aux fautes : début de mot */
+        const p = t.slice(0,5);
+        for(const k in A_IDX[i]){ if(k.length >= 5 && k.slice(0,5) === p){ w = Math.max(w, A_IDX[i][k]*0.7); } }
+      }
+      if(w){ sc += w * Math.log(1 + KB.length/((A_DF[t]||0)+1)); if(w >= 2) strong++; }
+    });
+    sc = sc / Math.sqrt(q.length);
+    if(e.r === curRole || e.r2 === curRole || e.r === "all") sc *= 1.15;
+    return {e, sc, strong};
+  }).filter(x=>x.sc > 0).sort((a,b)=>b.sc-a.sc);
+}
+
+/* ---------- la conversation ---------- */
+let CHAT = [];
+const A_SUGG = {
+  closer:["attache","virement","minimum","garantie","quelleoffre"],
+  coach:["coachstart","silence","livre","prolong","questionnaire"],
+  setter:["postes","cible","briefsetter","budget","doute"]
+};
+function aById(id){ return KB.find(e=>e.id===id); }
+function aChips(ids){
+  return '<div class="achips">' + ids.map(aById).filter(Boolean)
+    .map(e=>'<button onclick="aAsk(aById(\''+e.id+'\').q)">'+e.q+'</button>').join("") + '</div>';
+}
+function aAnswer(text){
+  const n = aNorm(text).trim();
+  if(/^(bonjour|salut|hello|coucou|hey|yo|bonsoir)\b/.test(n) && aTok(text).length <= 1)
+    return '<p>Salut ! Pose-moi ta question sur ton poste, le process ou les offres : je te réponds à partir de ton onboarding.</p>' + aChips(A_SUGG[curRole]);
+  if(/^(merci|top|super|parfait|ok|d accord|cool)\b/.test(n) && aTok(text).length <= 1)
+    return '<p>Avec plaisir. Une autre question ?</p>';
+
+  const res = aSearch(text);
+  const best = res[0];
+  if(!best || best.sc < 2.2 || !best.strong){
+    const near = res.slice(0,3).map(x=>x.e.id);
+    return '<p>Je n\'ai pas trouvé ça dans ton onboarding. Et ici, <b>on ne devine pas, on demande</b> : '
+      + 'une question sur la vente ou le paiement, c\'est <b>Léa</b> ; sur le contenu ou la stratégie d\'un client, c\'est <b>Loïc</b>.</p>'
+      + (near.length ? '<p class="amuted">Tu cherchais peut-être :</p>' + aChips(near) : aChips(A_SUGG[curRole]));
+  }
+  const e = best.e;
+  let h = '<div class="atx">' + e.a + '</div>';
+  if(e.l && e.l.length) h += linkRow(e.l);
+  if(e.s){
+    const role = e.r2 || (e.r === "all" ? curRole : e.r);
+    const other = role !== curRole;
+    h += '<button class="ago" onclick="aGo(\''+role+'\',\''+e.s.replace(/'/g,"\\'")+'\')">'
+       + (other ? 'Voir dans le parcours ' + NAMES[role].toLowerCase() + ' →' : 'Voir l\'étape →') + '</button>';
+  }
+  const rel = (e.rel||[]).filter(id=>id!==e.id).slice(0,3);
+  if(rel.length) h += '<p class="amuted">Questions proches :</p>' + aChips(rel);
+  return h;
+}
+function aDraw(){
+  const log = document.getElementById("alog");
+  if(!log) return;
+  log.innerHTML = CHAT.map(m=> m.who==="u"
+      ? '<div class="bq">'+esc(m.t)+'</div>'
+      : '<div class="ba">'+(m.h || '<span class="adots"><i></i><i></i><i></i></span>')+'</div>').join("");
+  log.style.display = CHAT.length ? "flex" : "none";
+  const qs = log.querySelectorAll(".bq");          /* on cale le haut de la dernière question */
+  log.scrollTop = qs.length ? qs[qs.length-1].offsetTop - log.offsetTop - 4 : 0;
+}
+function aAsk(text){
+  text = (text||"").trim();
+  if(!text) return;
+  CHAT.push({who:"u", t:text});
+  const m = {who:"a", h:""}; CHAT.push(m);
+  if(CHAT.length > 16) CHAT = CHAT.slice(-16);
+  aDraw();
+  const inp = document.getElementById("ainput"); if(inp) inp.value = "";
+  setTimeout(()=>{ m.h = aAnswer(text); aDraw(); }, 380);
+}
+function aGo(role, title){
+  if(role !== curRole) render(role);
+  const st = [...document.querySelectorAll(".step")].find(s=>s.querySelector("h4").textContent.indexOf(title) === 0
+             || s.querySelector("h4").textContent.indexOf(title) > -1);
+  if(!st) return;
+  st.classList.add("open","done");
+  st.querySelector(".sc").classList.remove("mute");
+  progress();
+  const y = st.getBoundingClientRect().top + window.scrollY - 90;
+  window.scrollTo({top:y, behavior:"smooth"});
+}
+function aFocus(){
+  const box = document.getElementById("asst");
+  if(!box) return;
+  window.scrollTo({top: box.getBoundingClientRect().top + window.scrollY - 90, behavior:"smooth"});
+  setTimeout(()=>{ const i = document.getElementById("ainput"); if(i) i.focus(); }, 350);
+}
+function aBlock(){
+  return '<div class="asst" id="asst">'
+    + '<div class="ahead"><div class="aico">?</div><div><h3>Une question&nbsp;? Demande.</h3>'
+    + '<div class="asub">Pose ta question comme tu la poserais à Léa. Les réponses viennent de ton onboarding.</div></div></div>'
+    + '<div class="alog" id="alog"></div>'
+    + '<form class="arow" onsubmit="aAsk(document.getElementById(\'ainput\').value);return false">'
+    + '<input id="ainput" type="text" autocomplete="off" placeholder="Ex. : il paie par virement ?">'
+    + '<button type="submit" class="asend">Demander</button></form>'
+    + '<div id="asugg">' + aChips(A_SUGG[curRole]) + '</div></div>';
+}
+
 /* ============================ rendu ============================ */
 let firstName = "";
 
@@ -813,6 +1504,7 @@ function linkRow(keys){
 
 function render(key){
   const R = ROLES[key];
+  curRole = key;
   const hello = firstName ? ("Salut " + firstName + ". ") : "";
   let h = '';
 
@@ -821,6 +1513,9 @@ function render(key){
      + '<h2>' + (firstName ? ("Salut " + esc(firstName) + ",<br>") : "")
      + 'tu es <span class="g">' + NAMES[key].toLowerCase() + '</span></h2>'
      + '<p class="intro">' + R.intro + '</p></div>';
+
+  /* l'assistant, tout en haut */
+  h += aBlock();
 
   /* les documents d'appel, avant tout le reste */
   if(R.vital){
@@ -880,6 +1575,7 @@ function render(key){
   h += '<div class="foot">Écosystème Viral · Process A→Z · Closers &amp; Coachs</div>';
 
   document.getElementById("content").innerHTML = h;
+  aDraw();
 
   const mb = document.getElementById("msgbox");
   if(mb) mb.textContent = MSG.replace("[ton prénom]", firstName || "[ton prénom]");
