@@ -349,9 +349,9 @@ const L = {
   briefset: ["Le groupe brief setting", "!Groupe WhatsApp — l'accès se donne à la passation"],
   skool:    ["Skool · Viralité Booster", "!C'est le closer qui donne l'accès — automatique via Whop, on vérifie toujours"],
   obj:      ["La fiche de traitement des objections", "https://docs.google.com/document/d/1LqBvZ5i370cSYJ0adh53R_eFht2hyupt/edit"],
-  tplE:     ["Template de l'offre Élite · 8 000 €", "https://drive.google.com/file/d/1wZX3brXLboevVABMhNXg-feuTdD-G8sH/view?usp=sharing"],
-  tplM:     ["Template de l'offre Mentorat · 12 000 €", "https://drive.google.com/file/d/1mMAWg7iJoZGQ_yPZ4Yau0c9cINAeVDZj/view?usp=sharing"],
-  tplP:     ["Template de l'offre Partenariat · 25 000 €", "https://drive.google.com/file/d/1yFAmIy_w3DKye4yaZM0Nhp2hdXB7a3UB/view?usp=sharing"],
+  tplE:     ["Template de l'offre Élite · 8 000 €", "https://drive.google.com/file/d/1l3juPizF0YdflSR0HZpu_Tts2bR1IlHv/view?usp=sharing"],
+  tplM:     ["Template de l'offre Mentorat · 12 000 €", "https://drive.google.com/file/d/1EdJ0o5PdNVsDteWAVG56A6sI_m5c7mLu/view?usp=share_link"],
+  tplP:     ["Template de l'offre Partenariat · 25 000 €", "https://drive.google.com/file/d/1xdU5b8Uy-04NxdeBoGD8Oeg3xLdaPDyt/view?usp=sharing"],
   cgv:      ["Les CGV · Jotform (hors Whop uniquement)", "https://form.jotform.com/260963237542460"],
   app:      ["L'application · clients, ventes, EOD", "https://leamartinb01-alt.github.io/eod-viralite/"],
   enr:      ["Drive des enregistrements d'appels", "https://drive.google.com/drive/folders/1zpbxVALUYGcyA1Qfiuj4PMXn18ctJ756"],
@@ -377,7 +377,7 @@ const L = {
   v2:       ["Le prompt V2 · à coller dans les instructions du projet", "https://drive.google.com/file/d/10mvBs6dQeAcCsFzMm2mVMPheuxfnZVTI/view"],
   yt:       ["La méthode expliquée par Loïc", "https://youtube.com/watch?v=-Er0-gqvKs0"],
   contrat:  ["Ton contrat de prestation", ""],
-  process:  ["Le Process A→Z · le document complet", "https://drive.google.com/file/d/1EaWyWQkWyXWy2mrz9seqAOWGW7YLLhIN/view?usp=sharing"],
+  process:  ["Le Process A→Z · le document complet", "https://drive.google.com/file/d/1iynkLVy6AsMmMcBafEnGB9slAcSdjkB2/view?usp=share_link"],
   wEc:      ["Élite · comptant 8 000 €", "https://whop.com/checkout/plan_DI52bP4Pd6fHm"],
   wE2:      ["Élite · 2 × 4 000 €", "https://whop.com/checkout/plan_iAP5NBX5mM4pB"],
   wE4:      ["Élite · 4 × 2 000 €", "https://whop.com/checkout/plan_DRhLiXjkzeXaa"],
@@ -563,15 +563,15 @@ const CLOSER = {
       <p style="margin-top:12px"><b>À la fin :</b> closé — tu enchaînes sur le paiement puis les 6 vérifications. Pas closé — motif dans iClosed et relance programmée. À requalifier — tu repasses la main au setter.</p>`,
       links:["nurtCas","obj","tplE","tplM","tplP"]},
 
-    {w:"Ta munition", t:"La garantie : 1 million de vues en 90 jours", b:`
+    {w:"Ta munition", t:"La garantie : 1 million de vues sur l'accompagnement", b:`
       <p>C'est <b>notre part du risque</b>, et c'est écrit noir sur blanc dans les CGV que le client signe (article 10). Tu l'annonces <b>exactement comme elle est</b> : ni plus large, ni plus timide.</p>
-      <div class="warn"><b>1 000 000 de vues en 90 jours.</b> Le compte à rebours démarre à la <b>date de lancement</b> — le jour de la première publication, pas le jour de la signature.</div>
-      <p><b>Si le million n'est pas atteint, c'est le client qui choisit</b>, et il n'y a que deux options :</p>
+      <div class="warn"><b>1 000 000 de vues sur toute la durée de l'accompagnement</b> : 4 mois sur l'Élite, 6 mois sur le Mentorat et le Partenariat. Le compteur démarre à la <b>date de lancement</b> — le jour de la première publication, pas le jour de la signature.</div>
+      <p><b>Si le million n'est pas atteint à la fin de l'accompagnement, c'est le client qui choisit</b>, et il n'y a que deux options :</p>
       <ul>
         <li><b>On continue</b> — on poursuit l'accompagnement sans frais, même périmètre, jusqu'au million</li>
         <li><b>On rembourse</b> — l'intégralité des sommes versées, sous 30 jours. Le contrat s'arrête et les accès sont coupés</li>
       </ul>
-      <p>S'il ne dit rien, c'est la première qui s'applique. Le choix est définitif. Et il doit la réclamer <b>par écrit, dans les 14 jours</b> qui suivent la fin des 90 jours, avec ses captures de statistiques.</p>
+      <p>S'il ne dit rien, c'est la première qui s'applique. Le choix est définitif. Et il doit la réclamer <b>par écrit, dans les 14 jours</b> qui suivent la fin de l'accompagnement, avec ses captures de statistiques.</p>
       <p style="margin-top:12px"><b>Ce que le client doit tenir pour y avoir droit.</b> Conditions cumulatives : <b>un seul manquement et la garantie tombe</b>. Ne la vends jamais comme un filet sans contrepartie.</p>
       <ul>
         <li>Il <b>publie tous les jours</b> : 100 % du calendrier, sans jour manqué</li>
@@ -696,7 +696,7 @@ const COACH = {
       </table>`},
 
     {w:"Ta responsabilité", t:"La garantie tient sur ce que le client fait", b:`
-      <p>Le client a signé une garantie : <b>1 million de vues en 90 jours</b>, sinon on continue gratuitement jusqu'au million, ou on le rembourse — c'est lui qui choisit. Le compte à rebours démarre à sa <b>première publication</b>.</p>
+      <p>Le client a signé une garantie : <b>1 million de vues sur toute la durée de l'accompagnement</b>, sinon on continue gratuitement jusqu'au million, ou on le rembourse — c'est lui qui choisit. Le compteur démarre à sa <b>première publication</b>.</p>
       <div class="warn">Elle ne s'applique que s'il a tout tenu : <b>publication quotidienne de 100 % du calendrier</b>, sur toutes les plateformes, consignes appliquées, tournages faits, validations sous 48 h, accès ouverts, comptes publics, présence aux appels, réponses sous 24 h, échéances payées. <b>Un seul manquement et elle tombe.</b></div>
       <p>Donc deux réflexes : tu <b>signales tout de suite</b> un client qui décroche du calendrier, et tu <b>gardes la trace</b> de ce qui a été livré et de ce qui n'a pas été publié. C'est ce qui fait la différence le jour où il réclame.</p>`,
       links:["q2"]},
@@ -898,7 +898,7 @@ const KB = [
 {id:"recapoffres", r:"all", q:"Fais-moi un récap des offres",
  v:["résume les offres","compare les offres","différence entre les offres","les trois offres","présente-moi les offres","explique-moi les offres","toutes les offres","comparatif des offres","on a quelles offres"],
  k:["recap","offre","toutes","differ","3","trois"],
- a:`Trois offres, et une même garantie : <b>1 million de vues en 90 jours</b>.
+ a:`Trois offres, et une même garantie : <b>1 million de vues sur toute la durée de l'accompagnement</b>.
  <div class="aoff"><b class="at">L'Élite Virale · 8 000 € · 4 mois</b>
  Pour l'indépendant qui a le temps d'exécuter (environ 3 000 à 15 000 €/mois). On fait la stratégie, les concepts et le calendrier ; <b>lui écrit, monte et publie</b>, on corrige.
  <span>Comptant, 2 ou 4 fois · minimum encaissé 2 000 €</span></div>
@@ -1009,9 +1009,9 @@ const KB = [
  s:"Ta préparation", l:["tplP"], rel:["elite","mentorat","livre"]},
 
 {id:"garantie", r:"all", q:"C'est quoi la garantie ?",
- v:["1 million de vues","garantie 90 jours","si on n'atteint pas le million","on garantit quoi"],
- k:["garantie","million","vues","90","jours"],
- a:`<b>1 000 000 de vues en 90 jours</b>, écrit dans les CGV (article 10). Le compte à rebours démarre à la <b>première publication</b>, pas à la signature. Si le million n'est pas atteint, <b>c'est le client qui choisit</b> : on continue sans frais jusqu'au million, ou on rembourse l'intégralité sous 30 jours. Sans choix exprimé, on continue. Elle ne tient que s'il a respecté les <b>10 conditions</b> : un seul manquement et elle tombe.`,
+ v:["1 million de vues","garantie sur la durée","si on n'atteint pas le million","on garantit quoi","garantie 90 jours"],
+ k:["garantie","million","vues","duree","accompagnement"],
+ a:`<b>1 000 000 de vues sur toute la durée de l'accompagnement</b> (4 mois sur l'Élite, 6 mois sur le Mentorat et le Partenariat), écrit dans les CGV (article 10). Le compteur démarre à la <b>première publication</b>, pas à la signature. Si le million n'est pas atteint à la fin, <b>c'est le client qui choisit</b> : on continue sans frais jusqu'au million, ou on rembourse l'intégralité sous 30 jours. Sans choix exprimé, on continue. Elle ne tient que s'il a respecté les <b>10 conditions</b> : un seul manquement et elle tombe.`,
  s:"La garantie", l:["cgv"], rel:["conditions","rembourse","promesse"]},
 
 {id:"conditions", r:"all", q:"Quelles sont les conditions de la garantie ?",
@@ -1023,7 +1023,7 @@ const KB = [
 {id:"rembourse", r:"all", q:"Le client peut-il être remboursé ?",
  v:["remboursement","il veut être remboursé","rembourser le client"],
  k:["rembourse","argent","recuperer"],
- a:`Uniquement dans le cadre de la garantie : si le million de vues n'est pas atteint en 90 jours <b>et</b> qu'il a tenu les 10 conditions, il choisit entre la poursuite gratuite et le <b>remboursement intégral sous 30 jours</b> (le contrat s'arrête et les accès sont coupés). Il doit le demander <b>par écrit dans les 14 jours</b>, captures de statistiques à l'appui. On ne dit jamais « sinon tu ne paies pas » : ce n'est pas ce que disent les CGV.`,
+ a:`Uniquement dans le cadre de la garantie : si le million de vues n'est pas atteint à la fin de l'accompagnement <b>et</b> qu'il a tenu les 10 conditions, il choisit entre la poursuite gratuite et le <b>remboursement intégral sous 30 jours</b> (le contrat s'arrête et les accès sont coupés). Il doit le demander <b>par écrit dans les 14 jours</b> qui suivent la fin de l'accompagnement, captures de statistiques à l'appui. On ne dit jamais « sinon tu ne paies pas » : ce n'est pas ce que disent les CGV.`,
  s:"La garantie", l:["cgv"], rel:["garantie","conditions"]},
 
 {id:"promesse", r:"closer", q:"Qu'est-ce que j'ai le droit de promettre ?",
