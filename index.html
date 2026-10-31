@@ -399,6 +399,7 @@ const L = {
   v2:       ["Le prompt V2 · à coller dans les instructions du projet", "https://drive.google.com/file/d/10mvBs6dQeAcCsFzMm2mVMPheuxfnZVTI/view"],
   yt:       ["La méthode expliquée par Loïc", "https://youtube.com/watch?v=-Er0-gqvKs0"],
   contrat:  ["Ton contrat de prestation", ""],
+  pitch:    ["Formation · le pitch des trois offres (interne)", "https://drive.google.com/file/d/1UjdLB00LSdZ_sLFuEQ9S_7km7pG6-Ugv/view?usp=drive_link"],
   wEc:      ["Élite · comptant 8 000 €", "https://whop.com/checkout/plan_DI52bP4Pd6fHm"],
   wE2:      ["Élite · 2 × 4 000 €", "https://whop.com/checkout/plan_iAP5NBX5mM4pB"],
   wE4:      ["Élite · 4 × 2 000 €", "https://whop.com/checkout/plan_DRhLiXjkzeXaa"],
@@ -535,7 +536,7 @@ const CLOSER = {
       <p>Un rendez-vous arrive de <b>deux façons</b> :</p>
       <ul>
         <li><b>Le prospect réserve lui-même</b> — depuis une vidéo de Loïc, la VSL, une pub Meta ou une recommandation. Personne ne l'a appelé avant toi</li>
-        <li><b>Un setter le booke</b> — en DM sur Instagram ou LinkedIn, ou au téléphone. Il qualifie, et le <b>setter appel</b> dépose ses notes sur <b>iClosed</b></li>
+        <li><b>Un setter le booke</b> — en DM sur Instagram ou LinkedIn, ou au téléphone. Le <b>setter appel</b> appelle tous les leads qui ne viennent pas du setting Insta / LinkedIn, et qualifie le <b>budget</b> et les <b>décisionnaires</b> : son suivi est sur <b>iClosed</b>, appel par appel, avec date et commentaire</li>
       </ul>
       <p><b>Chaque réservation passe par le questionnaire de qualification</b>, intégré à tous les calendriers. Il sort automatiquement du booking direct :</p>
       <ul>
@@ -576,6 +577,7 @@ const CLOSER = {
         <li><b>Sortir les deux cas clients de son secteur</b> — un coiffeur qui entend l'histoire de Mathilde se projette ; un coiffeur qui reçoit vingt fiches n'en lit aucune</li>
       </ul>
       <div id="casefind"></div>
+      <div class="warn"><b>Pour te former au pitch des trois offres</b> : la vidéo de formation interne est dans les liens de cette étape. Elle sert <b>uniquement à ton apprentissage</b> : elle ne s'envoie <b>jamais</b> à un client ou à un prospect.</div>
       <p style="margin-top:14px"><b>Pendant l'appel.</b> Le script de vente n'est pas sur cette page : ici, c'est le cadre.</p>
       <ul>
         <li>Se présenter et présenter la boîte : « on est spécialisés dans le B2B, on fait du done for you »</li>
@@ -591,7 +593,7 @@ const CLOSER = {
       </table>
       <p style="margin-top:12px"><b>À la fin :</b> closé — tu enchaînes sur le paiement puis les 6 vérifications. Pas closé — motif dans iClosed et relance programmée. À requalifier — tu repasses la main au setter.</p>
       <p style="margin-top:10px"><b>Et parfois, il faut un deuxième appel (R2).</b> Ce n'est pas grave, et ce n'est pas une étape imposée : certains prospects ont besoin d'un second échange avant de décider. Si c'est le cas, tu le cales avant de raccrocher, avec une date précise.</p>`,
-      links:["nurtCas","obj","tplE","tplM","tplP"]},
+      links:["pitch","nurtCas","obj","tplE","tplM","tplP"]},
 
     {w:"Ta munition", t:"La garantie : 1 million de vues sur l'accompagnement", b:`
       <p>C'est <b>notre part du risque</b>, et c'est écrit noir sur blanc dans les CGV que le client signe (article 10). Tu l'annonces <b>exactement comme elle est</b> : ni plus large, ni plus timide.</p>
@@ -668,6 +670,7 @@ const CLOSER = {
   ],
   never:[
     "<b>Tu ne promets jamais rien</b> en dehors du document d'offre.",
+    "<b>Tu n'envoies jamais la vidéo de formation du pitch</b> à un client : elle sert uniquement à ton apprentissage.",
     "<b>Tu n'envoies jamais la liste des liens de paiement</b> : un seul lien, celui du plan retenu.",
     "<b>Tu ne crées jamais un lien de paiement toi-même</b> : un cas particulier, c'est Léa.",
     "<b>Tu n'envoies jamais le RIB avant la signature des CGV</b>, si le client paye par virement.",
@@ -675,7 +678,7 @@ const CLOSER = {
     "<b>Tu ne bricoles jamais ta propre version</b> d'un document : si un lien manque, tu le demandes à Léa.",
     "<b>Tu ne décroches jamais sans avoir lu le brief setting</b> et les notes iClosed du setter."
   ],
-  tools:["contrat","app","briefset","obj","nurtCas","nurtPdf","temoign","tplE","tplM","tplP","cgv","skool","enr","formE","formM","formP","calR","calJ","logoE","logoM","logoP"]
+  tools:["contrat","pitch","app","briefset","obj","nurtCas","nurtPdf","temoign","tplE","tplM","tplP","cgv","skool","enr","formE","formM","formP","calR","calJ","logoE","logoM","logoP"]
 };
 
 /* ---------- COACH ---------- */
@@ -816,52 +819,57 @@ const COACH = {
 /* ---------- SETTER ---------- */
 const SETTER = {
   tag:"Setter", cls:"t-set",
-  intro:"Tu es sur l'étape 1. Il y a deux postes de setting : le setting Insta / LinkedIn, et le setter appel, qui appelle les personnes sans rendez-vous pour booker des calls. Tu qualifies, tu bookes, et tu récupères les prospects que le formulaire a écartés. Quand c'est toi qui bookes, c'est ton brief que le closer lit avant de décrocher.",
+  intro:"Tu es sur l'étape 1. Il y a deux postes de setting : le setting Insta / LinkedIn, et le setter appel, qui appelle tous les leads qui ne viennent pas du setting Insta / LinkedIn, sans exception. Dans les deux cas, ta mission est la même : qualifier le budget et les décisionnaires, puis booker. Quand c'est toi qui bookes, c'est ton brief que le closer lit avant de décrocher.",
   steps:[
     CONTRAT,
     {w:"Ton poste", t:"Lequel des deux settings tu fais", b:`
       <p>Deux postes, deux métiers différents. Repère le tien :</p>
       <ul>
         <li><b>Setting Insta / LinkedIn</b> — tu travailles les messages directs sur les comptes de Loïc, tu qualifies la conversation et <b>tu bookes le créneau</b></li>
-        <li><b>Le setter appel</b> — tu <b>appelles les personnes qui n'ont pas de rendez-vous</b> pour booker des calls. Tu qualifies pendant l'appel et tes notes vont sur <b>iClosed</b></li>
+        <li><b>Le setter appel</b> — tu <b>appelles tout le monde, sans exception</b>, sauf les leads qui viennent du setting Insta / LinkedIn : ceux qui ont réservé, ceux que le questionnaire a écartés, ceux qui n'ont pas de rendez-vous. Tes notes vont sur <b>iClosed</b></li>
       </ul>
-      <div class="warn"><b>Le closer fait son propre nurturing</b> : c'est lui qui prend attache avec le prospect. Ton travail s'arrête au créneau booké et au brief posté.</div>`,
+      <div class="warn"><b>Le closer fait son propre nurturing</b> : c'est lui qui prend attache avec le prospect pour le rendez-vous. Ton travail, c'est la qualification, le créneau et le brief.</div>`,
       links:["app"]},
 
-    {w:"Étape 1", t:"Tu sources et tu qualifies", b:`
+    {w:"Étape 1", t:"Ta qualification : le budget et les décisionnaires", b:`
       <p>Les leads viennent du contenu organique de Loïc (Instagram, TikTok, YouTube, LinkedIn — la source principale), de la publicité Meta, des DM entrants, des recommandations clients, du réseau, et du retargeting.</p>
-      <p>La cible, toujours : <b>B2B, une activité déjà établie, au moins 5 000 € de chiffre d'affaires par mois, au moins 2 000 € à investir, et tous les décisionnaires à l'appel</b>. On ne prend pas quelqu'un qui cherche encore son offre.</p>
-      <p>Le créneau est confirmé sur-le-champ, dans la <b>fenêtre de réservation de 3 jours</b>, et <b>la source se note sur l'application</b> à la création du dossier : c'est ce qui permet de savoir ce qui ramène vraiment des clients.</p>`,
+      <p>Deux points à qualifier, <b>à chaque fois</b> :</p>
+      <ul>
+        <li><b>Le budget, avant tout</b> — ce qu'il est prêt à investir, au moins <b>2 000 €</b>. C'est la question qui compte le plus : <b>si le budget est validé, pas besoin de valider le chiffre d'affaires</b></li>
+        <li><b>Les décisionnaires</b> — est-il seul à décider ? Sinon, <b>tous les décisionnaires doivent être présents à l'appel</b></li>
+      </ul>
+      <p>La cible reste <b>B2B, avec une activité déjà établie</b> : on ne prend pas quelqu'un qui cherche encore son offre. Le créneau se prend dans la <b>fenêtre de réservation de 3 jours</b>, et <b>la source se note sur l'application</b> à la création du dossier.</p>`,
       links:["app"]},
 
-    {w:"Ta récupération", t:"Les prospects disqualifiés par le formulaire", b:`
+    {w:"Setter appel", t:"Tes relances et ton iClosed", b:`
+      <p><b>3 appels maximum, puis WhatsApp.</b> Tu n'appelles pas une quatrième fois : au-delà de trois appels sans réponse, la relance continue par message WhatsApp.</p>
+      <p><b>Chaque appel est noté sur la ligne iClosed du prospect, sans exception</b>, dans ce format :</p>
+      <div class="copybox">Appel 1 — [date] — [ton commentaire]
+Appel 2 — [date] — [ton commentaire]
+Appel 3 — [date] — [ton commentaire]</div>
+      <div class="warn">Une date, un commentaire, <b>pour chaque appel</b>, même quand il n'a pas décroché. C'est ce que le closer relit avant de décrocher, et c'est ce qui permet de savoir où en est chaque prospect.</div>`,
+      links:["app"]},
+
+    {w:"Ta récupération", t:"Les prospects écartés par le questionnaire", b:`
       <p>Le questionnaire de réservation sort du booking direct les prospects à <b>moins de 5 000 € de chiffre d'affaires par mois</b>, ceux qui ne veulent pas investir <b>au moins 2 000 €</b>, et ceux qui <b>ne sont pas seuls décisionnaires</b>. <b>Ces prospects ne sont pas abandonnés : c'est toi qui les récupères.</b></p>
       <ul>
         <li><b>Setting Insta / LinkedIn</b> — le prospect n'a pas pu booker : tu vas creuser en message pour comprendre sa situation, et tu bookes l'appel si c'est justifié</li>
-        <li><b>Setter appel</b> — tu l'appelles et tu fais en sorte de booker le call</li>
+        <li><b>Setter appel</b> — tu l'appelles comme tout le monde : 3 appels maximum, puis WhatsApp</li>
       </ul>
-      <p>Ce que tu vérifies : le <b>chiffre d'affaires réel</b> (une erreur de saisie, ça arrive), le <b>budget</b> qu'il peut vraiment mettre, son intérêt, et <b>qui décide</b>. S'il manque un décisionnaire, tu cales un créneau où tout le monde est présent.</p>
-      <div class="warn">Tu ne rebookes que si les critères sont <b>réellement remplis</b>. Sinon, on ne force pas l'appel.</div>`,
+      <p>Tu requalifies le <b>budget</b> et les <b>décisionnaires</b>. Si le budget est validé, le chiffre d'affaires ne bloque pas. S'il manque un décisionnaire, tu cales un créneau où tout le monde est présent.</p>
+      <div class="warn">Tu ne rebookes que si le budget et les décisionnaires sont <b>réellement validés</b>. Sinon, on ne force pas l'appel.</div>`,
       links:["app"]},
-
-    {w:"Après le booking", t:"Le nurturing ne t'appartient plus", b:`
-      <p>Dès le rendez-vous pris, <b>c'est le closer qui prend attache</b> avec le prospect et lui envoie les <b>vidéos de témoignage</b>. Toi, tu n'as rien à faire de plus.</p>
-      <div class="warn">C'est ce qui fait qu'un prospect arrive à l'appel <b>à moitié convaincu</b>. Toi, ce qui fait la différence à ce moment-là, c'est <b>la qualité de ton brief</b>.</div>`,
-      links:["temoign"]},
 
     {w:"Après le booking", t:"Ton brief setting", b:`
       <p>C'est la pièce la plus utile de ton poste. Tu postes ton <b>brief setting</b> dans le <b>groupe brief setting</b>, en <b>mentionnant qui a booké l'appel</b> — le closer sait ainsi à qui demander le complément.</p>
-      <p>L'objectif est simple : <b>que le closer ait un maximum d'informations</b> avant de décrocher. Un closer qui lit un bon brief ne repart pas de zéro sur l'appel.</p>
-      <p><b>Les deux postes de setting</b> postent leur brief. Si tu es <b>setter appel</b>, tes notes de qualification vont en plus sur <b>iClosed</b>.</p>`,
+      <p>Ce que tu y mets : le <b>budget validé</b>, <b>qui décide</b> et s'ils seront tous là, son <b>secteur</b> (le closer sort le cas client qui va avec), et ce qu'il veut obtenir.</p>
+      <p>Les deux postes de setting postent leur brief. Si tu es <b>setter appel</b>, ton suivi appel par appel est en plus sur <b>iClosed</b>.</p>`,
       links:["briefset"]},
 
-    {w:"Ta note", t:"Ce que tu notes dans ton brief", b:`
-      <p>Ce qui sert vraiment au closer : son <b>chiffre d'affaires</b>, le <b>budget qu'il est prêt à investir</b>, <b>qui décide</b>, son <b>secteur</b>, et ce qu'il veut obtenir.</p>
-      <p>Le closer relit ton brief et tes notes avant de décrocher. Ce que tu écris est ce sur quoi il bâtit son appel.</p>`},
-
-    {w:"En renfort", t:"Tu peux requalifier", b:`
-      <p>Tu peux <b>appeler les calls à venir</b> pour soulager les closers, et <b>requalifier</b> quand c'est nécessaire : ça évite les appels perdus.</p>
-      <p>Quand un closer te renvoie un prospect à requalifier, tu reprends la main.</p>`},
+    {w:"Après le booking", t:"Le nurturing ne t'appartient plus", b:`
+      <p>Dès le rendez-vous pris, <b>c'est le closer qui prend attache</b> avec le prospect et lui envoie les <b>témoignages</b>. Ce qui fait la différence de ton côté à ce moment-là, c'est <b>la qualité de ton brief</b>.</p>
+      <p>Quand un closer te renvoie un prospect à requalifier, tu reprends la main.</p>`,
+      links:["temoign"]},
 
     {w:"La suite", t:"Tu passes la main au closer", b:`
       <p>À partir du créneau booké, c'est le closer qui prend : premier message dans les 2 h avec la page de témoignages, rappel 1 h avant, puis l'appel.</p>
@@ -869,11 +877,12 @@ const SETTER = {
       links:["temoign"]}
   ],
   never:[
-    "<b>Tu ne bookes pas quelqu'un qui cherche encore son offre</b> : notre cible a déjà une activité établie.",
+    "<b>Tu ne bookes jamais sans avoir qualifié le budget et les décisionnaires.</b>",
+    "<b>Setter appel : tu n'appelles jamais plus de 3 fois</b> — ensuite, c'est WhatsApp.",
+    "<b>Setter appel : tu ne laisses jamais un appel sans sa date et son commentaire</b> sur la ligne iClosed.",
     "<b>Tu ne laisses jamais la source vide</b> sur l'application.",
-    "<b>Tu n'abandonnes pas un prospect disqualifié</b> sans l'avoir recontacté : c'est ton travail de récupération.",
+    "<b>Tu n'abandonnes pas un prospect écarté par le questionnaire</b> sans l'avoir recontacté.",
     "<b>Tu ne bookes jamais sans poster ton brief setting</b> dans le groupe, avec la mention de qui a booké.",
-    "<b>Tu ne prends pas attache avec le prospect</b> : c'est le closer qui fait son propre nurturing.",
     "<b>Tu ne promets rien sur les offres</b> : c'est l'appel du closer."
   ],
   tools:["contrat","app","briefset","temoign","nurtCas"]
@@ -960,8 +969,8 @@ const KB = [
 {id:"recapsetter", r:"setter", q:"Résume-moi mon poste de setter",
  v:["mon rôle","c'est quoi mon job","ce que je fais","récap de mon poste","mes missions"],
  k:["recap","poste","role","mission","job"],
- a:`Tu sources et tu <b>qualifies</b> (B2B, activité établie, chiffre d'affaires et budget), tu <b>bookes</b> le créneau, tu notes la <b>source</b> sur l'application et tu postes ton <b>brief setting</b> en mentionnant qui a booké. Ensuite, c'est le closer qui prend attache : ton travail s'arrête là.`,
- s:"Lequel des deux settings", rel:["cible","briefsetter","budget"]},
+ a:`Tu <b>qualifies le budget et les décisionnaires</b>, tu <b>bookes</b> le créneau dans la fenêtre de 3 jours, tu notes la <b>source</b> sur l'application et tu postes ton <b>brief setting</b>. Setter appel : tu appelles tout le monde hors setting Insta / LinkedIn, <b>3 appels maximum puis WhatsApp</b>, et chaque appel est noté sur iClosed avec sa date et son commentaire.`,
+ s:"Lequel des deux settings", rel:["cible","relances","iclosed"]},
 
 /* ---------- closer ---------- */
 {id:"lead", r:"closer", q:"D'où viennent les rendez-vous ?",
@@ -1011,6 +1020,12 @@ const KB = [
  k:["objection","cher","hesite","reflechir","repondre"],
  a:`Tu as la <b>fiche de traitement des objections</b> : pour chaque objection, la réponse et la preuve à sortir en face. Tu l'ouvres <b>avant</b> l'appel. Et tu ne promets jamais rien en dehors du document d'offre.`,
  s:"Ta préparation", l:["obj"], rel:["cas","promesse"]},
+
+{id:"pitch", r:"closer", q:"Comment je me forme au pitch des offres ?",
+ v:["vidéo de formation","formation pitch","apprendre le pitch","smash pitch","présentation des trois offres","je peux envoyer la vidéo des offres au client"],
+ k:["pitch","formation","former","apprendre","smash","video"],
+ a:`Avec la <b>vidéo de formation interne</b> qui présente le pitch des trois offres. Elle sert <b>uniquement à ton apprentissage</b> : tu ne l'envoies <b>jamais</b> à un client ou à un prospect.`,
+ s:"Ta préparation", l:["pitch"], rel:["recapoffres","quelleoffre","objection"]},
 
 {id:"quelleoffre", r:"closer", q:"Quelle offre je propose au prospect ?",
  v:["comment choisir l'offre","quelle offre pour quel client","il faut combien de chiffre d'affaires","quelle offre pour un client à 20k par mois"],
@@ -1174,11 +1189,11 @@ const KB = [
  a:`Chaque réservation passe par le questionnaire de qualification. Il sort du booking direct : un <b>chiffre d'affaires sous 5 000 € par mois</b>, un <b>budget sous 2 000 €</b> (« Entrer dans l'Écosystème Viral nécessite un investissement financier »), et un prospect <b>pas seul décisionnaire</b> dont les décisionnaires ne seront pas tous à l'appel. Ces prospects ne sont pas perdus : ils partent chez les <b>setters</b>, qui creusent et bookent si les critères sont vraiment remplis.`,
  s:"Le lead arrive", r2:"closer", rel:["recup","fenetre","cible"]},
 
-{id:"recup", r:"setter", q:"Je fais quoi des prospects disqualifiés ?",
- v:["récupérer un prospect disqualifié","relancer les disqualifiés","prospect écarté par le formulaire","il n'a pas pu booker"],
+{id:"recup", r:"setter", q:"Je fais quoi des prospects écartés par le questionnaire ?",
+ v:["récupérer un prospect disqualifié","relancer les disqualifiés","prospect écarté par le formulaire","il n'a pas pu booker","je fais quoi des disqualifiés"],
  k:["disqual","recuper","relance","ecarte"],
- a:`Tu les récupères, on ne les abandonne pas. <b>Setting Insta / LinkedIn</b> : tu creuses en message pour comprendre sa situation et tu bookes si c'est justifié. <b>Setter appel</b> : tu l'appelles et tu fais en sorte de booker le call. Tu vérifies le chiffre d'affaires réel, le budget qu'il peut vraiment mettre, son intérêt et qui décide. Tu ne rebookes que si les critères sont <b>réellement remplis</b>.`,
- s:"Les prospects disqualifiés", rel:["disqualif","cible","briefsetter"]},
+ a:`Tu les récupères, on ne les abandonne pas. <b>Setting Insta / LinkedIn</b> : tu creuses en message et tu bookes si c'est justifié. <b>Setter appel</b> : tu l'appelles comme tout le monde, 3 appels maximum puis WhatsApp. Tu requalifies le <b>budget</b> et les <b>décisionnaires</b> : si le budget est validé, le chiffre d'affaires ne bloque pas.`,
+ s:"Les prospects écartés", rel:["disqualif","relances","cible"]},
 
 {id:"fenetre", r:"all", q:"Le prospect peut réserver son appel quand ?",
  v:["fenêtre de réservation","délai de réservation","dans combien de jours le rendez-vous","calendrier ouvert combien de jours"],
@@ -1261,46 +1276,58 @@ const KB = [
 
 /* ---------- setter ---------- */
 {id:"postes", r:"setter", q:"Quels sont les postes de setting ?",
- v:["c'est quoi un setter","setting insta","setter appel","mon poste"],
+ v:["c'est quoi un setter","setting insta","setter appel","mon poste","qui appelle le setter appel"],
  k:["setter","poste","insta","linkedin","dm","appel"],
- a:`Deux postes : le <b>Setting Insta / LinkedIn</b>, qui travaille les DM sur les comptes de Loïc, qualifie et booke ; et le <b>setter appel</b>, qui appelle pour booker du call et met ses notes sur iClosed. Les deux postent leur <b>brief setting</b>. Ton travail s'arrête au créneau booké et au brief posté.`,
- s:"Lequel des deux settings", rel:["cible","briefsetter"]},
+ a:`Deux postes : le <b>Setting Insta / LinkedIn</b>, qui travaille les DM sur les comptes de Loïc, qualifie et booke ; et le <b>setter appel</b>, qui appelle <b>tout le monde, sans exception</b>, sauf les leads qui viennent du setting Insta / LinkedIn. Les deux qualifient le <b>budget</b> et les <b>décisionnaires</b>, et postent leur <b>brief setting</b>.`,
+ s:"Lequel des deux settings", rel:["cible","relances","briefsetter"]},
 
-{id:"cible", r:"setter", q:"Qui est la cible ? Qui je booke ?",
- v:["profil du prospect","quel prospect qualifier","qualification","qui ne pas booker"],
- k:["qualif","booke","prospect","activite","b2b"],
- a:`<b>B2B, une activité déjà établie, au moins 5 000 € de chiffre d'affaires par mois, au moins 2 000 € prêts à investir, et tous les décisionnaires présents à l'appel.</b> On ne booke pas quelqu'un qui cherche encore son offre. Le créneau se prend dans la fenêtre de 3 jours, et tu notes la source sur l'application.`,
- s:"Tu sources et tu qualifies", l:["app"], rel:["budget","briefsetter"]},
+{id:"cible", r:"setter", q:"Qu'est-ce que je qualifie ? Qui je booke ?",
+ v:["profil du prospect","quel prospect qualifier","qualification","qui ne pas booker","je dois vérifier le chiffre d'affaires"],
+ k:["qualif","booke","prospect","activite","b2b","budget","decision"],
+ a:`Deux points, à chaque fois : <b>le budget avant tout</b> (au moins 2 000 € prêts à investir) et <b>les décisionnaires</b> (tous présents à l'appel). <b>Si le budget est validé, pas besoin de valider le chiffre d'affaires.</b> La cible reste B2B, avec une activité déjà établie. Le créneau se prend dans la fenêtre de 3 jours, et tu notes la source sur l'application.`,
+ s:"Ta qualification", l:["app"], rel:["relances","budget","briefsetter"]},
 
 {id:"briefsetter", r:"setter", q:"Comment je fais mon brief setting ?",
  v:["poster le brief","après avoir booké","groupe brief setting"],
  k:["brief","booke","apres","poste"],
- a:`Tu postes ton brief dans le <b>groupe brief setting</b>, en <b>mentionnant qui a booké l'appel</b>. L'objectif : que le closer ait un maximum d'informations avant de décrocher. Setter appel : tes notes vont en plus sur <b>iClosed</b>. Ensuite, <b>c'est le closer qui prend attache</b> avec le prospect.`,
+ a:`Tu postes ton brief dans le <b>groupe brief setting</b>, en <b>mentionnant qui a booké l'appel</b> : budget validé, décisionnaires, secteur, objectif. Setter appel : ton suivi appel par appel est en plus sur <b>iClosed</b>. Ensuite, <b>c'est le closer qui prend attache</b> avec le prospect.`,
  s:"Ton brief setting", l:["briefset"], rel:["budget","cible"]},
 
-{id:"budget", r:"setter", q:"Qu'est-ce que je dois absolument noter ?",
- v:["info importante pour le closer","qu'est-ce qui compte le plus","quoi mettre dans le brief"],
+{id:"budget", r:"setter", q:"Qu'est-ce que je mets dans mon brief ?",
+ v:["info importante pour le closer","qu'est-ce qui compte le plus","quoi mettre dans le brief","je note quoi"],
  k:["note","important","brief"],
- a:`Ce qui sert vraiment au closer : son <b>chiffre d'affaires</b>, le <b>budget qu'il est prêt à investir</b>, <b>qui décide</b>, son <b>secteur</b> (pour sortir le bon cas client), et ce qu'il veut obtenir.`,
- s:"Ce que tu notes", rel:["briefsetter","cible"]},
+ a:`Le <b>budget validé</b>, <b>qui décide</b> et s'ils seront tous là, son <b>secteur</b> (le closer sort le cas client qui va avec), et ce qu'il veut obtenir. Setter appel : ton suivi appel par appel est en plus sur iClosed.`,
+ s:"Ton brief setting", rel:["briefsetter","iclosed"]},
 
 {id:"source", r:"setter", q:"Où je note la source du lead ?",
  v:["d'où vient le prospect","source du rendez-vous"],
  k:["source","app","note"],
  a:`Sur l'<b>application</b>, à la création du dossier. Jamais vide : c'est ce qui permet de savoir ce qui ramène vraiment des clients.`,
- s:"Tu sources et tu qualifies", l:["app"], rel:["cible"]},
+ s:"Ta qualification", l:["app"], rel:["cible"]},
 
 {id:"requalif", r:"setter", q:"Je peux requalifier un prospect ?",
- v:["requalifier","appeler les calls à venir","soulager les closers"],
- k:["requalif","appel","closer"],
- a:`Oui : tu peux <b>appeler les calls à venir</b> pour soulager les closers, et requalifier quand c'est nécessaire. Quand un closer te renvoie un prospect à requalifier, tu reprends la main.`,
- s:"Tu peux requalifier", rel:["briefsetter"]},
+ v:["requalifier","un closer me renvoie un prospect"],
+ k:["requalif","closer","renvoie"],
+ a:`Oui. Quand un closer te renvoie un prospect à requalifier, tu reprends la main : budget et décisionnaires, puis un nouveau créneau si c'est validé.`,
+ s:"Le nurturing ne t'appartient plus", rel:["cible","briefsetter"]},
 
 {id:"nurturing", r:"setter", q:"Je recontacte le prospect après l'avoir booké ?",
  v:["je contacte le prospect après","je relance le prospect","j'envoie les témoignages","je fais le nurturing","je confirme le rendez-vous"],
  k:["prospect","contacte","nurturing","temoign","confirm"],
  a:`Non : dès le rendez-vous pris, <b>c'est le closer qui prend attache</b> avec le prospect et lui envoie les témoignages. Ton travail s'arrête au créneau booké et au <b>brief posté</b> : c'est ce brief qui fait la différence à ce moment-là.`,
- s:"Le nurturing ne t'appartient plus", rel:["briefsetter","budget"]}
+ s:"Le nurturing ne t'appartient plus", rel:["briefsetter","budget"]},
+
+{id:"relances", r:"setter", q:"Combien de fois je relance un prospect ?",
+ v:["nombre de relances","il ne décroche pas","combien d'appels","il répond pas au téléphone","je rappelle combien de fois"],
+ k:["relance","appel","fois","decroche","whatsapp","rappel"],
+ a:`<b>3 appels maximum, puis WhatsApp.</b> Tu n'appelles pas une quatrième fois. Et chaque appel est noté sur la ligne iClosed du prospect, avec sa date et ton commentaire, même s'il n'a pas décroché.`,
+ s:"Tes relances", rel:["iclosed","cible"]},
+
+{id:"iclosed", r:"setter", q:"Comment je remplis iClosed ?",
+ v:["remplir iclosed","commentaire iclosed","noter mes appels","format iclosed"],
+ k:["iclosed","commentaire","remplir","note","date"],
+ a:`Sur la ligne iClosed du prospect, <b>sans exception</b>, une ligne par appel : <b>Appel 1 — date — commentaire</b>, puis <b>Appel 2 — date — commentaire</b>, puis <b>Appel 3 — date — commentaire</b>. Même quand il n'a pas décroché. C'est ce que le closer relit avant son appel.`,
+ s:"Tes relances", rel:["relances","budget"]}
 ];
 
 /* ---------- le moteur ---------- */
@@ -1356,7 +1383,7 @@ const A_SYN = {
   decisionnaire:"decision",decisionnaires:"decision",decideur:"decision",decideurs:"decision",decide:"decision",associe:"decision",associes:"decision",
   recuperer:"recuper",recuperation:"recuper",recupere:"recuper",
   r2:"r2",deuxieme:"deuxieme",second:"deuxieme",seconde:"deuxieme",
-  fenetre:"fenetre",delai:"delai",delais:"delai",
+  fenetre:"fenetre",delai:"delai",delais:"delai",whatsapp:"whatsapp",
   recap:"recap",recapitulatif:"recap",recapitule:"recap",resume:"recap",resumer:"recap",resumes:"recap",synthese:"recap",
   compare:"recap",comparer:"recap",comparatif:"recap",comparaison:"recap",presente:"recap",presenter:"recap",
   explique:"recap",expliquer:"recap",liste:"recap",lister:"recap",apercu:"recap",global:"recap",
@@ -1372,7 +1399,7 @@ const A_SMS = {koi:"quoi",kwa:"quoi",kan:"quand",qd:"quand",pk:"pourquoi",pq:"po
   bcp:"beaucoup",cmb:"combien",cbien:"combien",cb1:"combien",slt:"salut",mrc:"merci",mci:"merci",plu:"plus",tro:"trop",trp:"trop",
   diff:"difference",dif:"difference",ya:"il y a",jsp:"je sais pas",vs:"vous",pa:"pas",jpeux:"je peux",jveux:"je veux",
   stp:"",svp:"",nn:"non",ok:"ok",dac:"d accord",reu:"reunion",rdv:"rdv",cc:"coucou",bjr:"bonjour",bsr:"bonsoir",cv:"ca va",
-  explik:"explique",quil:"qu il",quel:"quel",sa:"ca",sava:"ca va",ca:"ca",jdois:"je dois",jsais:"je sais",cque:"ce que",kel:"quel",kelle:"quelle",expliqu:"explique",recap:"recap",info:"information",infos:"information",whatsap:"whatsapp",watsap:"whatsapp",wtsp:"whatsapp"};
+  explik:"explique",pitcher:"pitch",pitches:"pitch",quil:"qu il",quel:"quel",sa:"ca",sava:"ca va",ca:"ca",jdois:"je dois",jsais:"je sais",cque:"ce que",kel:"quel",kelle:"quelle",expliqu:"explique",recap:"recap",info:"information",infos:"information",whatsap:"whatsapp",watsap:"whatsapp",wtsp:"whatsapp"};
 function aLev(a,b){
   if(Math.abs(a.length-b.length) > 2) return 9;
   const d = []; for(let i=0;i<=a.length;i++){ d[i]=[i]; }
@@ -1443,6 +1470,7 @@ function aSearch(text){
   if(/\b(paie|paye|payent|paient|regle)\s+(plus|plu|pas)\b|arrete de pay|plus pay/.test(n0)) text += " impaye";
   if(/\b(repond|reponds|repondent)\s+(plus|plu|pas)\b|plus de nouvelles/.test(n0)) text += " silence";
   if(/((\b[1-4] ?\d{3}\b|\b[1-4]k\b).*\b(ca|chiffre|budget|investir)\b)|(\b(ca|chiffre|budget|investir)\b.*(\b[1-4] ?\d{3}\b|\b[1-4]k\b))/.test(n0)) text += " disqual";
+  if(/(verif|valid|check|demande).*\b(ca|chiffre|revenus?)\b/.test(n0)) text += " qualif budget";
   if(/(promet|promes|dire|assure|annonce).*\b(chiffre|ca|ventes?|clients?|resultats?|rentab)/.test(n0)) text += " promesse";
   if(/\b(suis|sui|serai|serais|jsuis)\s+(paye|payee)|remuner|salaire|\bgagne|\bpaye combien/.test(n0)) text += " commission";
   const q = [...new Set(aTok(text))];
@@ -1468,7 +1496,7 @@ let CHAT = [];
 const A_SUGG = {
   closer:["attache","virement","minimum","garantie","quelleoffre"],
   coach:["coachstart","silence","livre","prolong","questionnaire"],
-  setter:["postes","cible","recup","briefsetter","budget"]
+  setter:["postes","cible","relances","iclosed","recup"]
 };
 function aById(id){ return KB.find(e=>e.id===id); }
 function aChips(ids){
