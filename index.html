@@ -213,6 +213,28 @@ td.y{color:var(--or2);font-weight:700}
 .foot{margin-top:40px;text-align:center;font-size:11.5px;letter-spacing:.2em;
   color:#6b6058;font-weight:700;text-transform:uppercase}
 
+/* ---------- les cas clients ---------- */
+.cfind{margin-top:16px;background:#160e09;border:1.5px solid var(--bd);border-radius:14px;padding:16px 18px}
+.cft{font-family:Anton;text-transform:uppercase;font-size:18px;color:#fff}
+.cfs{font-size:13px;color:var(--tx2);margin-top:2px}
+.cfrow{display:flex;gap:10px;margin-top:12px}
+.cfrow input{flex:1;min-width:0;background:#0f0905;border:1.5px solid var(--bdm);border-radius:10px;color:var(--wh);padding:10px 13px;font:inherit;font-size:15px}
+.cfrow input:focus{outline:none;border-color:var(--bd)}
+.ccase{margin-top:12px;padding:12px 14px;border-left:3px solid var(--or);background:rgba(255,122,61,.06);border-radius:0 10px 10px 0}
+.ccase .ch b{font-family:Anton;text-transform:uppercase;font-size:17px;color:#fff;margin-right:8px}
+.ccase .ch span{font-size:12.5px;color:var(--or3)}
+.ccase .cr{font-weight:800;color:var(--or2);margin-top:4px}
+.ccase ul{margin:6px 0 0 18px;font-size:13px}
+.ccase .cs{margin-top:8px;font-size:13px;font-style:italic;color:var(--wh)}
+.ccase .cs span{display:block;font-style:normal;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--tx2);margin-bottom:2px}
+.cnone{margin-top:12px;font-size:13.5px}
+.cnote{margin-top:12px;font-size:12px;color:var(--tx2)}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:12px}
+.cgrid button{text-align:left;background:#1c130d;border:1.5px solid var(--bdm);border-radius:10px;color:var(--tx);padding:8px 10px;font:inherit;cursor:pointer}
+.cgrid button:hover{border-color:var(--bd)}
+.cgrid b{display:block;color:#fff;font-size:13px}
+.cgrid span{font-size:11.5px;color:var(--tx2)}
+
 /* ---------- l'assistant ---------- */
 .asst{margin-top:6px;background:var(--card);border:1.5px solid var(--bd);border-radius:18px;padding:20px 22px;
   box-shadow:0 0 0 4px rgba(255,122,61,.06)}
@@ -336,8 +358,8 @@ td.y{color:var(--or2);font-weight:700}
 
 <script>
 /* ============================================================
-   Tout le contenu de ce fichier vient du Process A→Z interne.
-   Rien n'est inventé : chaque étape renvoie au document.
+   Le contenu de ce fichier vient des process internes de l'Écosystème Viral.
+   Rien n'est inventé.
    ============================================================ */
 
 const L = {
@@ -377,7 +399,6 @@ const L = {
   v2:       ["Le prompt V2 · à coller dans les instructions du projet", "https://drive.google.com/file/d/10mvBs6dQeAcCsFzMm2mVMPheuxfnZVTI/view"],
   yt:       ["La méthode expliquée par Loïc", "https://youtube.com/watch?v=-Er0-gqvKs0"],
   contrat:  ["Ton contrat de prestation", ""],
-  process:  ["Le Process A→Z · le document complet", "https://drive.google.com/file/d/1iynkLVy6AsMmMcBafEnGB9slAcSdjkB2/view?usp=share_link"],
   wEc:      ["Élite · comptant 8 000 €", "https://whop.com/checkout/plan_DI52bP4Pd6fHm"],
   wE2:      ["Élite · 2 × 4 000 €", "https://whop.com/checkout/plan_iAP5NBX5mM4pB"],
   wE4:      ["Élite · 4 × 2 000 €", "https://whop.com/checkout/plan_DRhLiXjkzeXaa"],
@@ -404,7 +425,7 @@ Au plaisir d'échanger avec toi.`;
 const JOUR1 = [
   ["1","Ton contrat est signé","Avant tout le reste. <b>Pas de contrat signé, pas d'accès</b> : c'est la même logique que pour un client — rien ne démarre sans l'écrit. Closer, setter ou coach, chacun a le sien."],
   ["2","L'appel de passation","Un appel avec <b>Léa</b>. On y ouvre tes accès (iClosed, l'application pour l'EOD, le groupe équipe, les Drive de ton poste), on te crée ton <b>adresse mail</b> Google Workspace, et on t'envoie l'invitation au <b>point équipe du lundi</b>."],
-  ["3","Tu lis le Process A→Z","En entier, une fois, dans l'ordre. C'est la seule source. Si une information n'y est pas, on la demande — on ne l'invente pas et on ne bricole pas sa propre version.<br><a class='mlink' href='"+L.process[1]+"' target='_blank' rel='noopener'>Ouvrir le Process A→Z →</a>"],
+  ["3","Tu lis ton parcours","En entier, une fois, dans l'ordre : c'est ta référence. Si une information n'y est pas, on la demande — on ne l'invente pas et on ne bricole pas sa propre version."],
   ["4","Le rituel démarre le soir même","L'EOD sur l'application, tous les soirs, dès ton premier jour. Et le <b>point équipe du lundi</b>, déjà dans ton agenda."]
 ];
 
@@ -516,8 +537,15 @@ const CLOSER = {
         <li><b>Le prospect réserve lui-même</b> — depuis une vidéo de Loïc, la VSL, une pub Meta ou une recommandation. Personne ne l'a appelé avant toi</li>
         <li><b>Un setter le booke</b> — en DM sur Instagram ou LinkedIn, ou au téléphone. Il qualifie, et le <b>setter appel</b> dépose ses notes sur <b>iClosed</b></li>
       </ul>
+      <p><b>Chaque réservation passe par le questionnaire de qualification</b>, intégré à tous les calendriers. Il sort automatiquement du booking direct :</p>
+      <ul>
+        <li>un <b>chiffre d'affaires inférieur à 5 000 € par mois</b></li>
+        <li>un <b>budget inférieur à 2 000 €</b>, à la question « Entrer dans l'Écosystème Viral nécessite un investissement financier »</li>
+        <li>un prospect qui <b>n'est pas seul décisionnaire</b>, quand tous les décisionnaires ne seront pas présents à l'appel</li>
+      </ul>
+      <p>Un prospect disqualifié n'est pas perdu : il part chez les <b>setters</b>, qui creusent et bookent l'appel si les critères sont vraiment remplis. Et la <b>fenêtre de réservation est de 3 jours</b> : un rendez-vous se prend dans les 3 jours qui suivent.</p>
       <p>Quand l'appel vient d'un setter, un <b>brief setting</b> est posté dans le groupe dédié, en mentionnant qui a booké. <b>Tu le lis avant de décrocher.</b></p>
-      <p><b>La source se note sur l'application</b> à la création du dossier. La cible, toujours : <b>B2B, une activité déjà établie, du chiffre d'affaires et du budget</b>.</p>`,
+      <p><b>La source se note sur l'application</b> à la création du dossier. La cible, toujours : <b>B2B, une activité déjà établie, au moins 5 000 € de chiffre d'affaires par mois, au moins 2 000 € à investir, et tous les décisionnaires à l'appel</b>.</p>`,
       links:["briefset","app"]},
 
     {w:"Étape 2", t:"Tu prends attache — le point à ne jamais rater", b:`
@@ -543,24 +571,26 @@ const CLOSER = {
       <ul>
         <li>Relire le <b>brief setting</b> et les <b>notes iClosed</b> du setter</li>
         <li>Vérifier la source du lead, et que l'activité est déjà établie</li>
-        <li>Savoir <b>ce qu'il a déjà dépensé en marketing</b>, si c'est noté</li>
+        <li>Relire ses <b>réponses au questionnaire</b> : chiffre d'affaires, budget qu'il est prêt à investir, décisionnaires</li>
         <li>Avoir les <b>trois documents d'offre</b> et le lien de paiement prêts</li>
         <li><b>Sortir les deux cas clients de son secteur</b> — un coiffeur qui entend l'histoire de Mathilde se projette ; un coiffeur qui reçoit vingt fiches n'en lit aucune</li>
       </ul>
+      <div id="casefind"></div>
       <p style="margin-top:14px"><b>Pendant l'appel.</b> Le script de vente n'est pas sur cette page : ici, c'est le cadre.</p>
       <ul>
         <li>Se présenter et présenter la boîte : « on est spécialisés dans le B2B, on fait du done for you »</li>
-        <li>Identifier l'offre : c'est <b>le budget marketing déjà dépensé</b> qui tranche, pas le chiffre d'affaires</li>
+        <li>Identifier l'offre avec le tableau ci-dessous : son <b>chiffre d'affaires</b>, et s'il veut <b>exécuter lui-même ou déléguer</b></li>
         <li>Raconter l'histoire du cas client, ne pas lire la fiche. Un cas à l'écran, pas vingt</li>
         <li><b>Ne rien promettre en dehors du document d'offre</b></li>
       </ul>
       <table>
         <tr><th>Offre</th><th>Prix</th><th>Pour qui</th></tr>
-        <tr><td>L'Élite Virale</td><td class="y">8 000 € · 4 mois</td><td>Environ 3 000 à 15 000 € par mois. Il exécute lui-même, on corrige.</td></tr>
+        <tr><td>L'Élite Virale</td><td class="y">8 000 € · 4 mois</td><td>Environ 5 000 à 15 000 € par mois. Il exécute lui-même, on corrige.</td></tr>
         <tr><td>Le Mentorat Viral</td><td class="y">12 000 € · 6 mois</td><td>Environ plus de 15 000 € par mois. Il veut déléguer, pas apprendre.</td></tr>
         <tr><td>Le Partenariat Viral</td><td class="y">25 000 € · 6 mois</td><td>Sur sélection. On publie à sa place, on automatise et on fait la pub.</td></tr>
       </table>
-      <p style="margin-top:12px"><b>À la fin :</b> closé — tu enchaînes sur le paiement puis les 6 vérifications. Pas closé — motif dans iClosed et relance programmée. À requalifier — tu repasses la main au setter.</p>`,
+      <p style="margin-top:12px"><b>À la fin :</b> closé — tu enchaînes sur le paiement puis les 6 vérifications. Pas closé — motif dans iClosed et relance programmée. À requalifier — tu repasses la main au setter.</p>
+      <p style="margin-top:10px"><b>Et parfois, il faut un deuxième appel (R2).</b> Ce n'est pas grave, et ce n'est pas une étape imposée : certains prospects ont besoin d'un second échange avant de décider. Si c'est le cas, tu le cales avant de raccrocher, avec une date précise.</p>`,
       links:["nurtCas","obj","tplE","tplM","tplP"]},
 
     {w:"Ta munition", t:"La garantie : 1 million de vues sur l'accompagnement", b:`
@@ -645,7 +675,7 @@ const CLOSER = {
     "<b>Tu ne bricoles jamais ta propre version</b> d'un document : si un lien manque, tu le demandes à Léa.",
     "<b>Tu ne décroches jamais sans avoir lu le brief setting</b> et les notes iClosed du setter."
   ],
-  tools:["contrat","process","app","briefset","obj","nurtCas","nurtPdf","temoign","tplE","tplM","tplP","cgv","skool","enr","formE","formM","formP","calR","calJ","logoE","logoM","logoP"]
+  tools:["contrat","app","briefset","obj","nurtCas","nurtPdf","temoign","tplE","tplM","tplP","cgv","skool","enr","formE","formM","formP","calR","calJ","logoE","logoM","logoP"]
 };
 
 /* ---------- COACH ---------- */
@@ -712,7 +742,7 @@ const COACH = {
       links:["q2","qrep"]},
 
     {w:"Ta production", t:"Le prompt V2 — à installer une fois", b:`
-      <p>Le prompt V2 remplace les trois anciens prompts du Process (synthèse, calendrier, script). Tout est intégré dedans.</p>
+      <p>Le prompt V2 remplace les trois anciens prompts (synthèse, calendrier, script). Tout est intégré dedans.</p>
       <ul>
         <li>On ouvre le <b>projet Claude</b> de délivrabilité des offres V2. C'est le même projet pour tous les clients</li>
         <li>On colle le <b>prompt V2 en entier dans les instructions du projet</b>. Une seule fois — il ne se recolle pas à chaque quinzaine</li>
@@ -780,28 +810,38 @@ const COACH = {
     "<b>Tu ne proposes jamais l'upsell avant le bilan chiffré.</b>",
     "<b>Tu ne recolles pas le prompt V2</b> à chaque quinzaine : il se pose une seule fois, dans les instructions du projet."
   ],
-  tools:["contrat","process","app","repE","repM","repP","dcoach","q1","q2","q3","qrep","v2","yt","calR","calJ","audR","audJ","upsell","nurt"]
+  tools:["contrat","app","repE","repM","repP","dcoach","q1","q2","q3","qrep","v2","yt","calR","calJ","audR","audJ","upsell","nurt"]
 };
 
 /* ---------- SETTER ---------- */
 const SETTER = {
   tag:"Setter", cls:"t-set",
-  intro:"Tu es sur l'étape 1. Il y a trois postes de setting, et ce ne sont pas les mêmes métiers. Le point commun : aucun appel n'arrive au closer sans être passé par l'un de vous, et c'est ton brief qu'il lit avant de décrocher.",
+  intro:"Tu es sur l'étape 1. Il y a deux postes de setting : le setting Insta / LinkedIn, et le setter appel, qui appelle les personnes sans rendez-vous pour booker des calls. Tu qualifies, tu bookes, et tu récupères les prospects que le formulaire a écartés. Quand c'est toi qui bookes, c'est ton brief que le closer lit avant de décrocher.",
   steps:[
     CONTRAT,
     {w:"Ton poste", t:"Lequel des deux settings tu fais", b:`
       <p>Deux postes, deux métiers différents. Repère le tien :</p>
       <ul>
         <li><b>Setting Insta / LinkedIn</b> — tu travailles les messages directs sur les comptes de Loïc, tu qualifies la conversation et <b>tu bookes le créneau</b></li>
-        <li><b>Le setter appel</b> — tu <b>appelles pour booker du call</b>. Tu qualifies pendant l'appel et tes notes vont sur <b>iClosed</b></li>
+        <li><b>Le setter appel</b> — tu <b>appelles les personnes qui n'ont pas de rendez-vous</b> pour booker des calls. Tu qualifies pendant l'appel et tes notes vont sur <b>iClosed</b></li>
       </ul>
       <div class="warn"><b>Le closer fait son propre nurturing</b> : c'est lui qui prend attache avec le prospect. Ton travail s'arrête au créneau booké et au brief posté.</div>`,
       links:["app"]},
 
     {w:"Étape 1", t:"Tu sources et tu qualifies", b:`
       <p>Les leads viennent du contenu organique de Loïc (Instagram, TikTok, YouTube, LinkedIn — la source principale), de la publicité Meta, des DM entrants, des recommandations clients, du réseau, et du retargeting.</p>
-      <p>La cible, toujours : <b>B2B, une activité déjà établie, du chiffre d'affaires et du budget</b>. On ne prend pas quelqu'un qui cherche encore son offre.</p>
-      <p>Le créneau est confirmé sur-le-champ, et <b>la source se note sur l'application</b> à la création du dossier : c'est ce qui permet de savoir ce qui ramène vraiment des clients.</p>`,
+      <p>La cible, toujours : <b>B2B, une activité déjà établie, au moins 5 000 € de chiffre d'affaires par mois, au moins 2 000 € à investir, et tous les décisionnaires à l'appel</b>. On ne prend pas quelqu'un qui cherche encore son offre.</p>
+      <p>Le créneau est confirmé sur-le-champ, dans la <b>fenêtre de réservation de 3 jours</b>, et <b>la source se note sur l'application</b> à la création du dossier : c'est ce qui permet de savoir ce qui ramène vraiment des clients.</p>`,
+      links:["app"]},
+
+    {w:"Ta récupération", t:"Les prospects disqualifiés par le formulaire", b:`
+      <p>Le questionnaire de réservation sort du booking direct les prospects à <b>moins de 5 000 € de chiffre d'affaires par mois</b>, ceux qui ne veulent pas investir <b>au moins 2 000 €</b>, et ceux qui <b>ne sont pas seuls décisionnaires</b>. <b>Ces prospects ne sont pas abandonnés : c'est toi qui les récupères.</b></p>
+      <ul>
+        <li><b>Setting Insta / LinkedIn</b> — le prospect n'a pas pu booker : tu vas creuser en message pour comprendre sa situation, et tu bookes l'appel si c'est justifié</li>
+        <li><b>Setter appel</b> — tu l'appelles et tu fais en sorte de booker le call</li>
+      </ul>
+      <p>Ce que tu vérifies : le <b>chiffre d'affaires réel</b> (une erreur de saisie, ça arrive), le <b>budget</b> qu'il peut vraiment mettre, son intérêt, et <b>qui décide</b>. S'il manque un décisionnaire, tu cales un créneau où tout le monde est présent.</p>
+      <div class="warn">Tu ne rebookes que si les critères sont <b>réellement remplis</b>. Sinon, on ne force pas l'appel.</div>`,
       links:["app"]},
 
     {w:"Après le booking", t:"Le nurturing ne t'appartient plus", b:`
@@ -815,9 +855,8 @@ const SETTER = {
       <p><b>Les deux postes de setting</b> postent leur brief. Si tu es <b>setter appel</b>, tes notes de qualification vont en plus sur <b>iClosed</b>.</p>`,
       links:["briefset"]},
 
-    {w:"Ta note", t:"Ce que tu notes change l'offre proposée", b:`
-      <p>Le point le plus utile que tu puisses noter : <b>ce qu'il a déjà dépensé en marketing</b>.</p>
-      <div class="warn">Le vrai critère n'est pas le chiffre d'affaires, <b>c'est le budget marketing déjà dépensé</b>. Quelqu'un à 20 000 € par mois qui investissait 5 000 € en pub prendra le Mentorat bien plus facilement qu'un autre à 40 000 € qui n'a jamais rien dépensé.</div>
+    {w:"Ta note", t:"Ce que tu notes dans ton brief", b:`
+      <p>Ce qui sert vraiment au closer : son <b>chiffre d'affaires</b>, le <b>budget qu'il est prêt à investir</b>, <b>qui décide</b>, son <b>secteur</b>, et ce qu'il veut obtenir.</p>
       <p>Le closer relit ton brief et tes notes avant de décrocher. Ce que tu écris est ce sur quoi il bâtit son appel.</p>`},
 
     {w:"En renfort", t:"Tu peux requalifier", b:`
@@ -832,11 +871,12 @@ const SETTER = {
   never:[
     "<b>Tu ne bookes pas quelqu'un qui cherche encore son offre</b> : notre cible a déjà une activité établie.",
     "<b>Tu ne laisses jamais la source vide</b> sur l'application.",
+    "<b>Tu n'abandonnes pas un prospect disqualifié</b> sans l'avoir recontacté : c'est ton travail de récupération.",
     "<b>Tu ne bookes jamais sans poster ton brief setting</b> dans le groupe, avec la mention de qui a booké.",
     "<b>Tu ne prends pas attache avec le prospect</b> : c'est le closer qui fait son propre nurturing.",
     "<b>Tu ne promets rien sur les offres</b> : c'est l'appel du closer."
   ],
-  tools:["contrat","process","app","briefset","temoign","nurtCas"]
+  tools:["contrat","app","briefset","temoign","nurtCas"]
 };
 
 const ROLES = {closer:CLOSER, coach:COACH, setter:SETTER};
@@ -857,19 +897,13 @@ const KB = [
  v:["quand est-ce que je commence","je démarre quand","première étape","par où je commence","mon contrat"],
  k:["contrat","signe","commence","demarre","passation","debut"],
  a:`Rien ne commence avant la signature de ton <b>contrat de prestation</b> : pas de contrat signé, pas d'accès. <b>Léa</b> te l'envoie, tu le signes, et ça déclenche l'<b>appel de passation</b>. Pendant cet appel : tes accès (iClosed, l'application, le groupe équipe, les Drive de ton poste), ton <b>adresse mail Google Workspace</b>, et l'invitation au <b>point équipe du lundi</b>.`,
- s:"Ton contrat", l:["contrat"], rel:["acces","process","lundi"]},
+ s:"Ton contrat", l:["contrat"], rel:["acces","lundi","doute"]},
 
 {id:"acces", r:"all", q:"Il me manque un accès, je fais comment ?",
  v:["je n'ai pas accès","pas d'accès","accès manquant","lien manquant","je trouve pas le lien","mot de passe"],
  k:["acces","manque","lien","drive","iclosed","mail","workspace"],
  a:`Tu le demandes à <b>Léa</b>. Les accès s'ouvrent à l'appel de passation, une fois ton contrat signé. Si un lien manque dans un document, tu ne bricoles jamais ta propre version : tu le demandes.`,
  l:["app"], rel:["contrat","doute"]},
-
-{id:"process", r:"all", q:"Où je trouve le Process A→Z ?",
- v:["le process a à z","le process complet","le document complet","la bible","le pdf"],
- k:["process","document","complet","pdf","lire","bible"],
- a:`Le voici. Tu le lis <b>en entier, une fois, dans l'ordre</b> : c'est la seule source. Si une information n'y est pas, on la demande — on ne l'invente pas.`,
- l:["process"], rel:["doute","contrat"]},
 
 {id:"lundi", r:"all", q:"C'est quand le point équipe ?",
  v:["réunion d'équipe","point du lundi","réunion hebdo","meeting"],
@@ -887,7 +921,7 @@ const KB = [
  v:["à qui je demande","qui contacter","j'ai une question","je sais pas","je suis bloqué","qui est mon contact"],
  k:["doute","question","demande","contacter","bloque","qui"],
  a:`Une question sur <b>la vente ou le paiement</b> : <b>Léa</b>. Une question sur <b>le contenu ou la stratégie</b> d'un client : <b>Loïc</b>, dans le groupe. Et la règle : <b>on ne devine pas, on demande.</b>`,
- rel:["equipe","process"]},
+ rel:["equipe","acces"]},
 
 {id:"equipe", r:"all", q:"Qui fait quoi dans l'équipe ?",
  v:["qui est loïc","qui est léa","qui sont les coachs","organigramme","rôle de chacun"],
@@ -897,10 +931,10 @@ const KB = [
 
 {id:"recapoffres", r:"all", q:"Fais-moi un récap des offres",
  v:["résume les offres","compare les offres","différence entre les offres","les trois offres","présente-moi les offres","explique-moi les offres","toutes les offres","comparatif des offres","on a quelles offres"],
- k:["recap","offre","toutes","differ","3","trois"],
+ k:["recap","offre","toutes","differ","trois"],
  a:`Trois offres, et une même garantie : <b>1 million de vues sur toute la durée de l'accompagnement</b>.
  <div class="aoff"><b class="at">L'Élite Virale · 8 000 € · 4 mois</b>
- Pour l'indépendant qui a le temps d'exécuter (environ 3 000 à 15 000 €/mois). On fait la stratégie, les concepts et le calendrier ; <b>lui écrit, monte et publie</b>, on corrige.
+ Pour l'indépendant qui a le temps d'exécuter (environ 5 000 à 15 000 €/mois). On fait la stratégie, les concepts et le calendrier ; <b>lui écrit, monte et publie</b>, on corrige.
  <span>Comptant, 2 ou 4 fois · minimum encaissé 2 000 €</span></div>
  <div class="aoff"><b class="at">Le Mentorat Viral · 12 000 € · 6 mois</b>
  Pour le chef d'entreprise qui veut déléguer (plus de 15 000 €/mois). En plus : <b>scripts, montage et habillage</b>. Lui tourne et publie. Prompt IA en fin de programme.
@@ -908,7 +942,7 @@ const KB = [
  <div class="aoff"><b class="at">Le Partenariat Viral · 25 000 € · 6 mois</b>
  Sur sélection, avec du budget pub. On fait tout : en plus, <b>publication, tunnel, automatisations et pub Meta</b>. Lui tourne.
  <span>Comptant ou 6 fois · minimum encaissé 5 000 €</span></div>
- Pour choisir, c'est <b>le budget marketing déjà dépensé</b> qui tranche, pas le chiffre d'affaires.`,
+ Pour choisir : son <b>chiffre d'affaires</b>, et s'il veut <b>exécuter lui-même ou déléguer</b>.`,
  s:"Ta préparation", r2:"closer", l:["tplE","tplM","tplP"], rel:["quelleoffre","garantie","livre"]},
 
 {id:"recapcloser", r:"closer", q:"Résume-moi mon poste de closer",
@@ -963,13 +997,13 @@ const KB = [
 {id:"prepa", r:"closer", q:"Comment je prépare mon appel ?",
  v:["avant l'appel","préparation de l'appel","quoi faire avant de décrocher","checklist avant appel"],
  k:["prepar","avant","decroche","appel","checklist"],
- a:`Avant de décrocher : tu relis le <b>brief setting</b> et les <b>notes iClosed</b>, tu vérifies la source et que l'activité est établie, tu regardes <b>ce qu'il a déjà dépensé en marketing</b>, tu as les <b>trois documents d'offre</b> et le lien de paiement prêts, et tu sors <b>les deux cas clients de son secteur</b>. Tes cinq documents d'appel sont en haut de la page : tu les ouvres avant, pas pendant.`,
+ a:`Avant de décrocher : tu relis le <b>brief setting</b> et les <b>notes iClosed</b>, tu vérifies la source et que l'activité est établie, tu relis ses <b>réponses au questionnaire</b>, tu as les <b>trois documents d'offre</b> et le lien de paiement prêts, et tu sors <b>les deux cas clients de son secteur</b>. Tes cinq documents d'appel sont en haut de la page : tu les ouvres avant, pas pendant.`,
  s:"Ta préparation", l:["tplE","tplM","tplP","obj","nurtCas"], rel:["cas","quelleoffre","objection"]},
 
 {id:"cas", r:"closer", q:"Quels cas clients je montre ?",
  v:["études de cas","case study","exemples de clients","témoignage à montrer","preuve sociale"],
  k:["cas","client","exemple","etude","preuve","secteur","temoign"],
- a:`Les <b>20 cas clients</b> sont dans le Drive nurturing. Tu en sors <b>deux, ceux de son secteur</b>, et tu racontes l'histoire au lieu de lire la fiche. <b>Un cas à l'écran, pas vingt</b> : un coiffeur qui entend l'histoire de Mathilde se projette, un coiffeur qui reçoit vingt fiches n'en lit aucune.`,
+ a:`Les <b>20 cas clients</b> sont dans le Drive nurturing, et dans l'étape « Ta préparation » tu tapes le secteur du prospect pour avoir le bon. Tu peux aussi me le demander ici : « prospect coiffeur, quel cas ? ». Tu en sors <b>deux, ceux de son secteur</b>, et tu racontes l'histoire au lieu de lire la fiche. <b>Un cas à l'écran, pas vingt</b> : un coiffeur qui entend l'histoire de Mathilde se projette, un coiffeur qui reçoit vingt fiches n'en lit aucune.`,
  s:"Ta préparation", l:["nurtCas"], rel:["prepa","objection"]},
 
 {id:"objection", r:"closer", q:"Comment je réponds à une objection ?",
@@ -980,8 +1014,8 @@ const KB = [
 
 {id:"quelleoffre", r:"closer", q:"Quelle offre je propose au prospect ?",
  v:["comment choisir l'offre","quelle offre pour quel client","il faut combien de chiffre d'affaires","quelle offre pour un client à 20k par mois"],
- k:["offre","choisir","propose","budget","marketing","chiffre"],
- a:`Ce qui tranche, c'est <b>le budget marketing déjà dépensé</b>, pas le chiffre d'affaires. En gros : <b>Élite</b> pour l'indépendant qui a le temps d'exécuter (environ 3 000 à 15 000 € par mois), <b>Mentorat</b> pour le chef d'entreprise qui veut déléguer (plus de 15 000 € par mois), <b>Partenariat</b> sur sélection, avec du budget pub en plus. Quelqu'un à 20 000 €/mois qui mettait 5 000 € en pub prendra le Mentorat plus facilement qu'un autre à 40 000 € qui n'a jamais rien dépensé.`,
+ k:["offre","choisir","propose","chiffre","deleguer"],
+ a:`Ça se joue sur son <b>chiffre d'affaires</b>, et sur une question : veut-il <b>exécuter lui-même ou déléguer</b> ? <b>Élite</b> pour l'indépendant qui a le temps d'exécuter (environ 5 000 à 15 000 € par mois), <b>Mentorat</b> pour le chef d'entreprise qui veut déléguer (plus de 15 000 € par mois), <b>Partenariat</b> sur sélection, avec du budget pub en plus.`,
  s:"Ta préparation", l:["tplE","tplM","tplP"], rel:["prix","elite","mentorat","partenariat"]},
 
 {id:"prix", r:"closer", q:"Combien coûtent les offres ?",
@@ -1105,7 +1139,7 @@ const KB = [
  s:"Les 6 vérifications", rel:["coachstart","msgonb"]},
 
 {id:"pasclose", r:"closer", q:"Le prospect n'a pas signé, je fais quoi ?",
- v:["pas closé","il a dit non","il veut réfléchir","relancer un prospect","à requalifier"],
+ v:["pas closé","il a dit non","relancer un prospect","à requalifier"],
  k:["non","relance","reflechir","refus","perdu"],
  a:`<b>Pas closé</b> : tu notes le motif dans iClosed et tu programmes la relance. <b>À requalifier</b> : tu repasses la main au setter. Et dans tous les cas, l'enregistrement va dans le Drive.`,
  s:"Ta préparation", rel:["enregistrement","objection"]},
@@ -1133,6 +1167,30 @@ const KB = [
  k:["commission","paye","gagne","salaire"],
  a:`Ta rémunération est écrite dans ton <b>contrat de prestation</b> : elle n'est pas la même pour un closer, un setter ou un coach. Pour toute question dessus, c'est <b>Léa</b>. Et pour qu'une commission soit calculée, la vente doit être <b>complète sur l'application</b> : une fiche incomplète, c'est une vente qui n'existe pas.`,
  s:"Ton contrat", l:["contrat","app"], rel:["fiche","contrat"]},
+
+{id:"disqualif", r:"closer", q:"Qui est disqualifié par le formulaire de réservation ?",
+ v:["critères de disqualification","le prospect est disqualifié","il n'a pas pu réserver","chiffre d'affaires minimum","budget minimum pour réserver","il n'est pas seul décisionnaire","questionnaire de réservation"],
+ k:["disqual","decision","minimum","5000","2000","formulaire","critere"],
+ a:`Chaque réservation passe par le questionnaire de qualification. Il sort du booking direct : un <b>chiffre d'affaires sous 5 000 € par mois</b>, un <b>budget sous 2 000 €</b> (« Entrer dans l'Écosystème Viral nécessite un investissement financier »), et un prospect <b>pas seul décisionnaire</b> dont les décisionnaires ne seront pas tous à l'appel. Ces prospects ne sont pas perdus : ils partent chez les <b>setters</b>, qui creusent et bookent si les critères sont vraiment remplis.`,
+ s:"Le lead arrive", r2:"closer", rel:["recup","fenetre","cible"]},
+
+{id:"recup", r:"setter", q:"Je fais quoi des prospects disqualifiés ?",
+ v:["récupérer un prospect disqualifié","relancer les disqualifiés","prospect écarté par le formulaire","il n'a pas pu booker"],
+ k:["disqual","recuper","relance","ecarte"],
+ a:`Tu les récupères, on ne les abandonne pas. <b>Setting Insta / LinkedIn</b> : tu creuses en message pour comprendre sa situation et tu bookes si c'est justifié. <b>Setter appel</b> : tu l'appelles et tu fais en sorte de booker le call. Tu vérifies le chiffre d'affaires réel, le budget qu'il peut vraiment mettre, son intérêt et qui décide. Tu ne rebookes que si les critères sont <b>réellement remplis</b>.`,
+ s:"Les prospects disqualifiés", rel:["disqualif","cible","briefsetter"]},
+
+{id:"fenetre", r:"all", q:"Le prospect peut réserver son appel quand ?",
+ v:["fenêtre de réservation","délai de réservation","dans combien de jours le rendez-vous","calendrier ouvert combien de jours"],
+ k:["fenetre","delai","jours","reserv","calendrier"],
+ a:`La <b>fenêtre de réservation est de 3 jours</b> : un rendez-vous se prend dans les 3 jours qui suivent. Et chaque réservation passe d'abord par le questionnaire de qualification.`,
+ s:"Le lead arrive", r2:"closer", rel:["disqualif","attache"]},
+
+{id:"r2", r:"closer", q:"Je peux faire un deuxième appel (R2) ?",
+ v:["un r2","deuxième rendez-vous","second appel","il veut un autre appel","rappeler le prospect pour closer"],
+ k:["r2","deuxieme","second","autre"],
+ a:`Oui. Parfois un <b>R2</b> est nécessaire, et <b>ce n'est pas grave</b> : certains prospects ont besoin d'un second échange avant de décider. Ce n'est pas une étape imposée pour autant. Si c'est le cas, tu le cales avant de raccrocher, avec une date précise.`,
+ s:"Ta préparation", rel:["pasclose","objection"]},
 
 /* ---------- coach ---------- */
 {id:"coachstart", r:"coach", q:"Quand je prends la main sur un client ?",
@@ -1211,7 +1269,7 @@ const KB = [
 {id:"cible", r:"setter", q:"Qui est la cible ? Qui je booke ?",
  v:["profil du prospect","quel prospect qualifier","qualification","qui ne pas booker"],
  k:["qualif","booke","prospect","activite","b2b"],
- a:`<b>B2B, une activité déjà établie, du chiffre d'affaires et du budget.</b> On ne booke pas quelqu'un qui cherche encore son offre. Et tu notes la source sur l'application à la création du dossier.`,
+ a:`<b>B2B, une activité déjà établie, au moins 5 000 € de chiffre d'affaires par mois, au moins 2 000 € prêts à investir, et tous les décisionnaires présents à l'appel.</b> On ne booke pas quelqu'un qui cherche encore son offre. Le créneau se prend dans la fenêtre de 3 jours, et tu notes la source sur l'application.`,
  s:"Tu sources et tu qualifies", l:["app"], rel:["budget","briefsetter"]},
 
 {id:"briefsetter", r:"setter", q:"Comment je fais mon brief setting ?",
@@ -1221,9 +1279,9 @@ const KB = [
  s:"Ton brief setting", l:["briefset"], rel:["budget","cible"]},
 
 {id:"budget", r:"setter", q:"Qu'est-ce que je dois absolument noter ?",
- v:["info importante pour le closer","budget marketing","qu'est-ce qui compte le plus"],
- k:["note","budget","marketing","important"],
- a:`<b>Ce qu'il a déjà dépensé en marketing.</b> C'est le vrai critère pour l'offre, plus que le chiffre d'affaires : quelqu'un à 20 000 €/mois qui investissait 5 000 € en pub prendra le Mentorat bien plus facilement qu'un autre à 40 000 € qui n'a jamais rien dépensé.`,
+ v:["info importante pour le closer","qu'est-ce qui compte le plus","quoi mettre dans le brief"],
+ k:["note","important","brief"],
+ a:`Ce qui sert vraiment au closer : son <b>chiffre d'affaires</b>, le <b>budget qu'il est prêt à investir</b>, <b>qui décide</b>, son <b>secteur</b> (pour sortir le bon cas client), et ce qu'il veut obtenir.`,
  s:"Ce que tu notes", rel:["briefsetter","cible"]},
 
 {id:"source", r:"setter", q:"Où je note la source du lead ?",
@@ -1294,6 +1352,11 @@ const A_SYN = {
   livrer:"livre",livraison:"livre",livrable:"livre",livrables:"livre",delivery:"livre",livre:"livre",
   scripts:"script",script:"script",montage:"montage",monter:"montage",monteur:"montage",publier:"publie",publication:"publie",publie:"publie",
   vues:"vues",vue:"vues",
+  disqualifie:"disqual",disqualifies:"disqual",disqualifiee:"disqual",disqualification:"disqual",disqualifications:"disqual",disqualifier:"disqual",disqual:"disqual",dq:"disqual",
+  decisionnaire:"decision",decisionnaires:"decision",decideur:"decision",decideurs:"decision",decide:"decision",associe:"decision",associes:"decision",
+  recuperer:"recuper",recuperation:"recuper",recupere:"recuper",
+  r2:"r2",deuxieme:"deuxieme",second:"deuxieme",seconde:"deuxieme",
+  fenetre:"fenetre",delai:"delai",delais:"delai",
   recap:"recap",recapitulatif:"recap",recapitule:"recap",resume:"recap",resumer:"recap",resumes:"recap",synthese:"recap",
   compare:"recap",comparer:"recap",comparatif:"recap",comparaison:"recap",presente:"recap",presenter:"recap",
   explique:"recap",expliquer:"recap",liste:"recap",lister:"recap",apercu:"recap",global:"recap",
@@ -1379,6 +1442,7 @@ function aSearch(text){
   const n0 = aNorm(text);
   if(/\b(paie|paye|payent|paient|regle)\s+(plus|plu|pas)\b|arrete de pay|plus pay/.test(n0)) text += " impaye";
   if(/\b(repond|reponds|repondent)\s+(plus|plu|pas)\b|plus de nouvelles/.test(n0)) text += " silence";
+  if(/((\b[1-4] ?\d{3}\b|\b[1-4]k\b).*\b(ca|chiffre|budget|investir)\b)|(\b(ca|chiffre|budget|investir)\b.*(\b[1-4] ?\d{3}\b|\b[1-4]k\b))/.test(n0)) text += " disqual";
   if(/(promet|promes|dire|assure|annonce).*\b(chiffre|ca|ventes?|clients?|resultats?|rentab)/.test(n0)) text += " promesse";
   if(/\b(suis|sui|serai|serais|jsuis)\s+(paye|payee)|remuner|salaire|\bgagne|\bpaye combien/.test(n0)) text += " commission";
   const q = [...new Set(aTok(text))];
@@ -1404,7 +1468,7 @@ let CHAT = [];
 const A_SUGG = {
   closer:["attache","virement","minimum","garantie","quelleoffre"],
   coach:["coachstart","silence","livre","prolong","questionnaire"],
-  setter:["postes","cible","briefsetter","budget","doute"]
+  setter:["postes","cible","recup","briefsetter","budget"]
 };
 function aById(id){ return KB.find(e=>e.id===id); }
 function aChips(ids){
@@ -1420,6 +1484,13 @@ function aAnswer(text){
 
   const res = aSearch(text);
   const best = res[0];
+  const cm = caseFind(text, true);
+  if(cm.length && (/\b(cas|niche|secteur|exemple|temoign|montre|sortir|sors|prospect|client|il est|elle est|c est|un|une)\b/.test(n) || !best || best.sc < 6)){
+    const top = cm.filter(x=>x.sc >= cm[0].sc - 1).slice(0,3);
+    return '<p>Le cas à raconter pour ce secteur :</p>' + top.map(x=>caseCard(x.c)).join("")
+      + '<p class="amuted">C\'est une preuve, pas une promesse : tu racontes ce qu\'il a obtenu, tu ne garantis jamais le même chiffre.</p>'
+      + '<button class="ago" onclick="aGo(\'closer\',\'Ta préparation\')">Voir l\'outil cas clients →</button>';
+  }
   if(!best || best.sc < 2.2 || !best.strong){
     const near = res.slice(0,3).map(x=>x.e.id);
     return '<p>Je n\'ai pas trouvé ça dans ton onboarding. Et ici, <b>on ne devine pas, on demande</b> : '
@@ -1485,6 +1556,127 @@ function aBlock(){
     + '<input id="ainput" type="text" autocomplete="off" placeholder="Ex. : il paie par virement ?">'
     + '<button type="submit" class="asend">Demander</button></form>'
     + '<div id="asugg">' + aChips(A_SUGG[curRole]) + '</div></div>';
+}
+
+/* ============================ les 20 cas clients ============================
+   Source : PDF « Témoignages - Résultats clients » (Drive nurturing).
+   n = prénom · niche · r = le résultat phare · p = les preuves · k = mots du secteur */
+const CASES = [
+ {n:"Thomas", niche:"Automatisation IA de l'administratif", r:"+22 % de revenus mensuels récurrents",
+  p:["4,8 millions de vues en 3 mois","De nouveaux contrats de suivi et de maintenance","Des prospects qui comprennent son offre avant même l'appel"],
+  k:["intelligence artificielle","automatisation ia","administratif","no code","nocode","agence ia","consultant ia","informatique","tech","digital","agence digitale","agence web","developpeur","logiciel"]},
+ {n:"Mathilde", niche:"Salon de coiffure", r:"+40 % de chiffre d'affaires en 2 mois",
+  p:["8,1 millions de vues en 3 mois : de 1 000 à 69 000 vues en moyenne par vidéo","15 formations vendues à 700 € dès son premier lancement"],
+  k:["coiffure","coiffeur","coiffeuse","salon","cheveux","coloriste","beaute"]},
+ {n:"Matthias", niche:"Coffee shops", r:"+26 % de chiffre d'affaires mensuel après 2 mois",
+  p:["De 6 000 à plus de 30 000 vues en moyenne par vidéo en 2 semaines","Son deuxième établissement enfin rempli"],
+  k:["cafe","coffee","coffee shop","restaurant","restauration","bar","brasserie","snack","commerce","commerce local","boutique","magasin","food"]},
+ {n:"Nicolas", niche:"Médecin", r:"+22 % de chiffre d'affaires",
+  p:["Plus de 8 millions de vues en 3 mois","Une stratégie de contenu moins coûteuse que son dispositif précédent"],
+  k:["medecin","docteur","sante","medical","kine","kinesitherapeute","dentiste","osteo","osteopathe","praticien","therapeute","clinique","pharmacie","pharmacien","psychologue","nutritionniste","chirurgien"]},
+ {n:"Alice", niche:"Cabinet d'intérim genevois · recrutement / intérim B2B", r:"+21 % de chiffre d'affaires sur le trimestre",
+  p:["4 millions de vues en 3 mois","De grands contrats signés avec des entreprises du BTP et de l'énergie","Un vivier de candidatures considérablement élargi"],
+  k:["interim","recrutement","recruteur","rh","ressources humaines","emploi","cabinet de recrutement","suisse","geneve","services aux entreprises"]},
+ {n:"Ismaël", niche:"SaaS B2B / CRM", r:"MRR passé de 18 000 € à 25 560 € (+42 %)",
+  p:["4,8 millions de vues en 3 mois","+42 % de revenus mensuels récurrents, nets des résiliations","Une autorité qui facilite les partenariats"],
+  k:["saas","crm","logiciel","startup","start up","tech","abonnement","software"]},
+ {n:"Camille", niche:"Architecture", r:"+18 % de chiffre d'affaires sur le trimestre",
+  p:["5,5 millions de vues en 3 mois, en partant d'à peine 3 000 abonnés","Moins de clients, mais plus de chiffre d'affaires","Une clientèle plus haut de gamme"],
+  k:["architecte","architecture","decoration","decorateur","decoratrice","interieur","architecte d interieur","renovation","design","amenagement","home staging"]},
+ {n:"Boris", niche:"Climatisation professionnelle", r:"Plus de 20 000 € de devis signés en une semaine",
+  p:["Premier million de vues atteint en 72 heures","+30 % de demandes qualifiées sur 2 mois","Sa plus grosse semaine de signatures depuis la création de l'entreprise"],
+  k:["climatisation","clim","chauffage","plombier","plomberie","artisan","electricien","pompe a chaleur","btp","batiment","travaux","renovation energetique","chauffagiste","couvreur","menuisier","maçon","macon"]},
+ {n:"Sarah", niche:"Institut de beauté / soins corporels", r:"+28 % de chiffre d'affaires mensuel après 3 mois",
+  p:["7 millions de vues en 3 mois","Une demande qui lui permet d'envisager +10 % sur ses tarifs"],
+  k:["institut","beaute","esthetique","estheticienne","soins","soin","ongles","onglerie","prothesiste ongulaire","maquillage","epilation","spa","cils","beauty"]},
+ {n:"Alexandre", niche:"Nettoyage professionnel", r:"+27 % de chiffre d'affaires mensuel après 3 mois",
+  p:["Plus de 7 millions de vues en 3 mois","De nouveaux contrats d'entretien récurrents, une facturation plus prévisible"],
+  k:["nettoyage","menage","proprete","entreprise de nettoyage","conciergerie","facility","services aux entreprises"]},
+ {n:"Jeanne", niche:"Coaching sportif", r:"Chiffre d'affaires multiplié par 3 en 6 semaines",
+  p:["10 millions de vues en 90 jours","Grâce aux ventes de ses coachings en ligne","5 contrats de partenariat annuels rémunérés"],
+  k:["coach sportif","coaching sportif","sport","sportif","fitness","musculation","salle de sport","personal trainer","yoga","pilates","nutrition","remise en forme","perte de poids"]},
+ {n:"Chris", niche:"Salons de coiffure / barbering", r:"+25 % de chiffre d'affaires",
+  p:["Plus de 5 millions de vues en 3 mois","Des clients qui viennent de différentes régions de France pour ses salons"],
+  k:["barbier","barber","barbershop","barbering","coiffure homme","coiffeur","salon"]},
+ {n:"Romain", niche:"Mutuelles / contrats entreprises", r:"+21 % de chiffre d'affaires",
+  p:["Plus de 4,5 millions de vues en 3 mois","D'importants contrats avec de grandes entreprises du secteur sanitaire"],
+  k:["assurance","assureur","mutuelle","mutuelles","courtier","courtage","prevoyance","conseiller financier","gestion de patrimoine","cgp"]},
+ {n:"Ulysse", niche:"Nettoyage automobile", r:"−60 % de coût par prospect en 90 jours",
+  p:["Plus de 6,8 millions de vues","Une entreprise passée de 3 à 8 employés"],
+  k:["lavage","detailing","nettoyage auto","nettoyage automobile","nettoyage de voiture","nettoyage voiture","nettoyage de voitures","lavage auto","voiture","automobile","car wash","esthetique automobile"]},
+ {n:"Jérémy", niche:"Immobilier", r:"Plusieurs dizaines de millions de vues en quelques mois",
+  p:["Une visibilité qui soutient les demandes pour ses services","Une autorité renforcée auprès de ses prospects"],
+  k:["immobilier","immo","agent immobilier","agence immobiliere","investissement locatif","investisseur","promoteur","mandataire","location","gestion locative"]},
+ {n:"Chris", niche:"Concessions automobiles", r:"+33 % de chiffre d'affaires",
+  p:["6 millions de vues en 90 jours","Une visibilité qui a contribué à l'ouverture de trois concessions (France, Espagne, Suisse)"],
+  k:["concession","concessionnaire","automobile","voiture","garage","vente auto","vente de voitures","vehicule","moto","auto"]},
+ {n:"Thomas", niche:"Éducation / mathématiques", r:"Plus de 4,4 millions de vues en quelques mois",
+  p:["Des ventes de formations et d'accompagnements développées grâce à sa visibilité","Une présence en ligne devenue un levier pour attirer de nouveaux élèves"],
+  k:["prof","professeur","enseignant","education","maths","mathematiques","soutien scolaire","cours de maths","cours particuliers","formateur","ecole","tuteur","organisme de formation"]},
+ {n:"Adrien", niche:"Pâtisserie", r:"+100 000 abonnés en 21 jours",
+  p:["Une notoriété qui soutient ses ventes et son chiffre d'affaires","Une évolution vers davantage d'autonomie professionnelle"],
+  k:["patisserie","patissier","boulangerie","boulanger","chocolatier","chocolat","traiteur","cuisine","chef patissier","food","gastronomie"]},
+ {n:"Sébastien", niche:"Massage / bien-être", r:"1,6 million d'abonnés",
+  p:["Des centaines de millions de vues cumulées en quelques mois","Une position de référence dans sa niche"],
+  k:["massage","masseur","masseuse","bien etre","relaxation","spa","sophrologue","naturopathe","reflexologie","therapeute"]},
+ {n:"Gaspard", niche:"E-commerce / accompagnement", r:"+42 % de chiffre d'affaires",
+  p:["Plus de 80 millions de vues en 90 jours","Coûts publicitaires réduits de 30 %","+400 % de trafic organique vers ses offres"],
+  k:["e commerce","ecommerce","boutique en ligne","shopify","dropshipping","vente en ligne","infopreneur","formation en ligne","coach business","business en ligne","consultant"]}
+];
+const CASE_COMMON = `Aucun n'était créateur de contenu : ils avaient déjà une activité qui tournait, il leur manquait d'être vus. En moyenne <b>6 millions de vues par client au bout de 90 jours</b>, <b>45+ niches</b> et <b>100+ chefs d'entreprise et indépendants</b> accompagnés.`;
+
+function caseNorm(s){ return " " + aNorm(s).replace(/\s+/g," ").trim() + " "; }
+function caseFind(text, strict){
+  const t = caseNorm(text);
+  return CASES.map((c,i)=>{
+    let sc = 0;
+    c.k.forEach(k=>{ const kk = caseNorm(k); if(t.indexOf(kk) > -1) sc += kk.length > 8 ? 3 : 2; });
+    if(!strict){ /* un début de mot suffit dans la recherche dédiée : « coif », « immo » */
+      t.trim().split(" ").forEach(w=>{ if(w.length >= 4 && !A_STOP.has(w))
+        c.k.forEach(k=>{ if(aNorm(k).split(" ").some(x=>x.indexOf(w) === 0)) sc += 1; }); });
+      const nn = " " + aNorm(c.niche).replace(/\s+/g," ") + " ", q = t.trim();
+      if((q.length >= 3 && nn.indexOf(q) > -1) || (q.length >= 2 && nn.indexOf(" " + q + " ") > -1)) sc += 2;
+    }
+    return {c, i, sc};
+  }).filter(x=>x.sc > 0).sort((a,b)=>b.sc-a.sc);
+}
+function caseCard(c){
+  return '<div class="ccase"><div class="ch"><b>' + c.n + '</b><span>' + c.niche + '</span></div>'
+    + '<div class="cr">' + c.r + '</div><ul>' + c.p.map(x=>'<li>'+x+'</li>').join("") + '</ul>'
+    + '<div class="cs"><span>À dire en appel</span>« On a déjà accompagné ' + c.n + ', dans le même secteur que toi : '
+    + c.niche.charAt(0).toLowerCase() + c.niche.slice(1) + '. Résultat : ' + c.r.charAt(0).toLowerCase() + c.r.slice(1) + '. »</div></div>';
+}
+function caseRun(){
+  const inp = document.getElementById("cfin"), out = document.getElementById("cfout");
+  if(!inp || !out) return;
+  const q = inp.value.trim();
+  if(!q){ out.innerHTML = ""; return; }
+  const res = caseFind(q, false);
+  if(!res.length){
+    out.innerHTML = '<div class="cnone">Pas de cas dans cette niche précise. Prends le plus proche par <b>type d\'activité</b> '
+      + '(commerce local, service B2B, santé et bien-être, artisan…), et appuie-toi sur le point commun : ' + CASE_COMMON + '</div>';
+    return;
+  }
+  const top = res.filter(x=>x.sc >= res[0].sc - 1).slice(0,3);
+  out.innerHTML = top.map(x=>caseCard(x.c)).join("");
+}
+function caseAll(btn){
+  const out = document.getElementById("cfout");
+  const open = btn.dataset.open === "1";
+  btn.dataset.open = open ? "0" : "1";
+  btn.textContent = open ? "Voir les 20 cas" : "Masquer";
+  document.getElementById("cfin").value = "";
+  out.innerHTML = open ? "" : '<div class="cgrid">' + CASES.map(c=>
+    '<button onclick="document.getElementById(\'cfin\').value=\'' + c.niche.replace(/'/g,"\\'") + '\';caseRun()"><b>'
+    + c.n + '</b><span>' + c.niche + '</span></button>').join("") + '</div>';
+}
+function caseBlock(){
+  return '<div class="cfind"><div class="cft">Le cas client de son secteur</div>'
+    + '<div class="cfs">Tape le métier ou le secteur du prospect : tu as le cas à raconter, ses chiffres et la phrase à dire.</div>'
+    + '<div class="cfrow"><input id="cfin" type="text" autocomplete="off" placeholder="Ex. : coiffeur, agent immobilier, kiné…" oninput="caseRun()">'
+    + '<button class="btn" data-open="0" onclick="caseAll(this)">Voir les 20 cas</button></div>'
+    + '<div id="cfout"></div>'
+    + '<div class="cnote">C\'est une <b>preuve</b>, pas une promesse : tu racontes ce que ce client a obtenu, tu ne garantis jamais le même chiffre.</div></div>';
 }
 
 /* ============================ rendu ============================ */
@@ -1572,13 +1764,16 @@ function render(key){
      + 'Une question sur <b style="color:var(--or2)">le contenu ou la stratégie</b> d\'un client : Loïc, dans le groupe.</p>'
      + '<p style="color:var(--or2);font-weight:700;margin-top:10px">On ne devine pas, on demande.</p></div>';
 
-  h += '<div class="foot">Écosystème Viral · Process A→Z · Closers &amp; Coachs</div>';
+  h += '<div class="foot">Écosystème Viral · Onboarding · Closers, coachs &amp; setters</div>';
 
   document.getElementById("content").innerHTML = h;
   aDraw();
 
   const mb = document.getElementById("msgbox");
   if(mb) mb.textContent = MSG.replace("[ton prénom]", firstName || "[ton prénom]");
+
+  const cf = document.getElementById("casefind");
+  if(cf) cf.innerHTML = caseBlock();
 
   const mg = document.getElementById("msggen");
   if(mg){
